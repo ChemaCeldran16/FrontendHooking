@@ -8,7 +8,11 @@ export default {
     './node_modules/@nextui-org/theme/dist/**/*.{js,ts,jsx,tsx}'
   ],
   theme: {
-    extend: {},
+    extend: {
+      backgroundImage: {
+          'fondo': "url('./src/static/FondoPrincipal.jpg')",
+      },
+  }
   },
   darkMode: "class",
   plugins: [nextui()]
