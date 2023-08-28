@@ -1,6 +1,5 @@
 import React from "react";
 import { Navbar, NavbarBrand, NavbarContent, NavbarItem, Link, Button, NavbarMenuToggle, NavbarMenu, NavbarMenuItem } from "@nextui-org/react";
-// import { AcmeLogo } from "./AcmeLogo.jsx";
 import Marca from './Marca'
 
 export default function NavBar() {

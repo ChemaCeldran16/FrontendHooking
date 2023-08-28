@@ -3,11 +3,11 @@ import Box from "@mui/material/Box";
 import TextField from "@mui/material/TextField";
 import Autocomplete from "@mui/material/Autocomplete";
 
-const AutocompletarOpcionesPrincipal = ({ options, onOptionSelected, labelText }) => {
+const InputBuscador = ({ options, onOptionSelected, labelText }) => {
   return (
     <Autocomplete
       id="buscador-select"
-      sx={{ width: 300 }}
+      className="flex w-full mb-4 bg-teal-700 rounded-lg "
       options={options}
       autoHighlight
       getOptionLabel={(option) => option.label}
@@ -31,4 +31,4 @@ const AutocompletarOpcionesPrincipal = ({ options, onOptionSelected, labelText }
   );
 };
 
-export default AutocompletarOpcionesPrincipal;
+export default InputBuscador;
