@@ -1,60 +1,34 @@
 import React from "react";
 import { Navbar, NavbarBrand, NavbarContent, NavbarItem, Link, Button, NavbarMenuToggle, NavbarMenu, NavbarMenuItem } from "@nextui-org/react";
-// import { AcmeLogo } from "./AcmeLogo.jsx";
+import Marca from './Marca'
 
 export default function NavBar() {
     const [isMenuOpen, setIsMenuOpen] = React.useState(false);
 
     const menuItems = [
-        "Profile",
-        "Dashboard",
-        "Activity",
-        "Analytics",
-        "System",
-        "Deployments",
-        "My Settings",
-        "Team Settings",
-        "Help & Feedback",
-        "Log Out",
+        "Registrate",
+        "Iniciar Sesión",
     ];
 
     return (
-        <Navbar onMenuOpenChange={setIsMenuOpen}>
-            <NavbarContent>
+        <Navbar onMenuOpenChange={setIsMenuOpen} 
+        className="bg-gray-900 fixed top-0 left-0 w-full z-50">
+            <NavbarContent className="justify-content" >
                 <NavbarMenuToggle
                     aria-label={isMenuOpen ? "Close menu" : "Open menu"}
                     className="sm:hidden"
                 />
                 <NavbarBrand>
-                    {/* <AcmeLogo /> */}
-                    <p className="font-bold text-inherit">ACME</p>
+                    <Marca></Marca>
                 </NavbarBrand>
-            </NavbarContent>
-
-            <NavbarContent className="hidden sm:flex gap-4" justify="center">
-                <NavbarItem>
-                    <Link color="foreground" href="#" className="hover:color-[#646cff]">
-                        Features
-                    </Link>
-                </NavbarItem>
-                <NavbarItem isActive>
-                    <Link href="#" aria-current="page">
-                        Customers
-                    </Link>
-                </NavbarItem>
-                <NavbarItem>
-                    <Link color="foreground" href="#">
-                        Integrations
-                    </Link>
-                </NavbarItem>
             </NavbarContent>
             <NavbarContent justify="end">
                 <NavbarItem className="hidden lg:flex">
-                    <Link href="#">Login</Link>
+                    <Link href="#">Regístrate</Link>
                 </NavbarItem>
-                <NavbarItem>
+                <NavbarItem className="hidden lg:flex">
                     <Button as={Link} color="primary" href="#" variant="flat">
-                        Sign Up
+                        Iniciar Sesión
                     </Button>
                 </NavbarItem>
             </NavbarContent>
