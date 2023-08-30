@@ -4,13 +4,14 @@ import viteLogo from '/vite.svg'
 import './App.css'
 import NavBar from './components/NavBar'
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import PaginaPrincipal from './paginas/PaginaPrincipal';
+// import PaginaPrincipal from './paginas/PaginaPrincipal';
+import PaginaRegistro from './paginas/PaginaRegistro';
 
 export default function App() {
   return (
     <BrowserRouter>
-      <div className="w-screen h-screen dark text-foreground bg-background p-8 flex items-start justify-center">
-        <PaginaPrincipal></PaginaPrincipal>
+      <div className="w-screen h-screen dark text-foreground bg-background flex items-start justify-center">
+        <PaginaRegistro/>
       </div>
       <Routes>
         <Route path="/" >
