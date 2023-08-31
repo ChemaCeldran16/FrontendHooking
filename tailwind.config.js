@@ -10,7 +10,7 @@ export default {
   theme: {
     extend: {
       backgroundImage: {
-          'fondo': "url('./src/static/FondoPrincipal.jpg')",
+          'fondo': "url('./src/static/img/FondoPrincipal.jpg')",
       },
   }
   },
