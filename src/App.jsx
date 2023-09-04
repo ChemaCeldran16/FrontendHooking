@@ -6,14 +6,16 @@ import NavBar from './components/NavBar'
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import PaginaPrincipal from './paginas/PaginaPrincipal';
 // import PaginaRegistro from './paginas/PaginaRegistro';
-import PaginaLogin from './paginas/PaginaLogin';
-
+// import PaginaLogin from './paginas/PaginaLogin';
+// import PaginaBusqueda from './paginas/PaginaBusqueda'
+import PaginaLocal from './paginas/PaginaLocal'
 export default function App() {
   return (
     <BrowserRouter>
       <div className="w-screen h-screen dark text-foreground bg-background flex items-start justify-center">
         {/* <PaginaRegistro/> */}
-        <PaginaPrincipal/>
+        {/* <PaginaPrincipal/> */}
+        <PaginaLocal/>
       </div>
       <Routes>
         <Route path="/" >
