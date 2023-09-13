@@ -2,14 +2,12 @@ import React from "react";
 import { Input } from "@nextui-org/react";
 import { IconoMail } from "../static/iconos/IconoMail";
 
-export default function App() {
-  const [value, setValue] = React.useState("junior2nextui.org");
-
+export default function MailInput({ setValue, value }) {
   const validateEmail = (value) =>
-    /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(value.trim()); // Cambio en la expresión regular
+    /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(value.trim());
 
   const validationState = React.useMemo(() => {
-    if (value.trim() === "") return "invalid"; // Cambio aquí para considerar cadena vacía como inválida
+    if (value.trim() === "") return "invalid";
     return validateEmail(value) ? "valid" : "invalid";
   }, [value]);
 

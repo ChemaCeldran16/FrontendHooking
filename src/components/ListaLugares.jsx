@@ -13,7 +13,7 @@ const ListaLugares = ({ locales, currentPage, itemsPerPage,onClick }) => {
         <List.Item key={local.id}>
           <CartaLugar
             nombre={local.nombreLocal}
-            direccion={local.nombre_pueblo_ciudad}
+            direccion={local.direccion + " " +local.cp}
             valoracion={local.valoracion}
             imagen={local.fotos[0].imagen} 
             onClick={onClick}

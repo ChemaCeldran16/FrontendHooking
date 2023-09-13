@@ -1,14 +1,17 @@
 import TablaLocal from '../components/TablaLocal'
 import { useEffect, useState } from 'react'
 import { Rate } from 'antd'
-// import { useNavigate } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 import NavBar from '../components/NavBar'
 import Mapa from '../components/Mapa'
 import AutocompletarOpcionesPrincipal from '../components/AutocompletarOpcionesPrincipal'
 import DecimalInput from '../components/InputDecimal'
+import { useSelector } from 'react-redux'
+import { useDispatch } from 'react-redux'
+import { cambioNombre } from '../redux/localSlice'
+import {  cambioTipo,cambioPoblacion, cambioKilometros} from '../redux/searchSlice'
 
 const PaginaLocal = () => {
-  // const [nombre, setNombre] = useState('');
   const [imagenes, setImagenes] = useState([])
   const [nombreSitio, setNombreSitio] = useState('')
   const [tipoSitio, setTipoSitio] = useState('')
@@ -19,32 +22,20 @@ const PaginaLocal = () => {
   const [direccion, setDireccion] = useState('')
   const [latitud, setLatitud] = useState('')
   const [longitud, setLongitud] = useState('')
-  const [mostrarMapa, setMostrarMapa] = useState(false)
-  const backendBaseUrl = 'http://localhost:8000' // Dirección base de tu backend de Django
-  // const nombreLocal = useSelector((state) => state.busqueda.local);
-  const nombreLocal = 'Uno ocho'
-  // const user = useSelector((state) => state.user);
-  // const navigate = useNavigate()
-  // const dispatch = useDispatch();
-  const [posibilidadesLocales, setposibilidadesLocales] = useState([])
+  const [decimalValue, setDecimalValue] = useState('')
+  const backendBaseUrl = 'http://localhost:8000'
+  const nombreLocal = useSelector(state => state.local.nombreLocal)
+  const navigate = useNavigate()
+  const dispatch = useDispatch()
+  const [posibilidadesLocales, setPosibilidadesLocales] = useState([])
   const [posibilidadesDonde, setPosibilidadesDonde] = useState([])
   const [posibilidadesTipo, setPosibilidadesTipo] = useState([])
-  const [selectedOptionNombre, setSelectedOptionNombre] = useState('') // Lugar
-  const [selectedOptionPoblacion, setselectedOptionPoblacion] = useState('') // Pueblo
-  const [selectedOptionTipo, setSelectedOptionTipo] = useState('') // Pueblo
-  // const handleLoginPage = async (e) => {
+  const [selectedOptionNombre, setSelectedOptionNombre] = useState('')
+  const [selectedOptionPoblacion, setselectedOptionPoblacion] = useState('')
+  const [selectedOptionTipo, setSelectedOptionTipo] = useState('')
+  const user = useSelector(state => state.user)
+  const [mostrarMapa, setMostrarMapa] = useState(false)
 
-  //   navigate('/LoginPage')
-  // };
-  // const handleCerrarSesion = () => {
-  //     // Lógica para cerrar sesión (ejemplo usando una acción de Redux)
-  //     dispatch(logout());
-  //     navigate("/local");
-  //   };
-  // const handleBuscarPrueba = () => {
-  //   // Lógica para cerrar sesión (ejemplo usando una acción de Redux)
-  //   navigate('/local')
-  // };
   const obtenerLocal = async nombre => {
     const userData = {
       nombre,
@@ -73,7 +64,6 @@ const PaginaLocal = () => {
           latitud,
           longitud,
         } = data
-
         const imagenesCompletas = imagenes.map(
           imagen => `${backendBaseUrl}${imagen}`,
         )
@@ -87,7 +77,7 @@ const PaginaLocal = () => {
         setDireccion(direccion)
         setLatitud(latitud)
         setLongitud(longitud)
-        setMostrarMapa(true) // Cambiar a true para que el mapa se muestre cuando los datos estén disponibles
+        setMostrarMapa(true)
       } else {
         const errorData = await response.json()
         console.log(errorData)
@@ -97,6 +87,31 @@ const PaginaLocal = () => {
     }
   }
 
+  const handleBotonbuscar = async e => {
+    // Obtener las opciones seleccionadas de los InputBuscador
+    // Suponiendo que tienes las variables "selectedOption", "selectedOptionPoblacion", "selectedOptionTipo" y "decimalValue" definidas en algún lugar
+    // Comprobar si selectedOptionPoblacion no es null o en blanco
+    if (selectedOptionNombre && selectedOptionNombre.trim() !== '') {
+      // Almacenar solo selectedOptionPoblacion en el estado de Redux usando la acción correspondiente
+      dispatch(cambioNombre(selectedOptionNombre.trim()))
+      // Navegar a "/local"
+      navigate('/local')
+    } else {
+      if (!selectedOptionTipo && !selectedOptionPoblacion && decimalValue) {
+        console.error('Error: Debes rellenar los campos correctamente')
+      } else {
+        // Resto de la lógica de la función handleBotonbuscar
+        // ...
+
+        // Almacenar las variables en el estado de Redux usando las acciones correspondientes
+        dispatch(cambioTipo(selectedOptionTipo))
+        dispatch(cambioPoblacion(selectedOptionPoblacion))
+        dispatch(cambioKilometros(decimalValue))
+        // Navegar a "/search"
+        navigate('/search')
+      }
+    }
+  }
   const cargarLugares = async () => {
     fetch('http://localhost:8000/api/opcionesLocales')
       .then(response => {
@@ -113,7 +128,7 @@ const PaginaLocal = () => {
             value: index,
             label: posibilidad,
           }))
-          setposibilidadesLocales(options)
+          setPosibilidadesLocales(options)
         } else {
           console.error('La respuesta del servidor no es un array válido')
         }
@@ -194,15 +209,19 @@ const PaginaLocal = () => {
     }
   }
 
+  const handleDecimalChange = value => {
+    setDecimalValue(value) // Actualizamos el estado con el valor del DecimalInput
+  }
+
   useEffect(() => {
-    obtenerLocal(nombreLocal)
     cargarLugares()
     cargarPueblos()
     cargarTipos()
+    obtenerLocal(nombreLocal)
   }, [])
   return (
     <>
-      <NavBar></NavBar>
+      <NavBar usuario={user} />
       <div className='flex flex-col h-full w-full space-y-8 bg-green-300 '>
         <div className='flex flex-row w-full h-48  justify-center pt-24 space-x-32'>
           <div className='flex flex-col w-2/12'>
@@ -219,7 +238,7 @@ const PaginaLocal = () => {
               labelText='Tipo'
             />
           </div>
-          <div className='flex flex-col w-2/12'>
+          <div className='flex flex-col w-2/12 '>
             <AutocompletarOpcionesPrincipal
               options={posibilidadesDonde}
               onOptionSelected={option =>
@@ -227,10 +246,13 @@ const PaginaLocal = () => {
               }
               labelText='Lugar'
             />
-            <DecimalInput></DecimalInput>
+            <DecimalInput onChange={handleDecimalChange}></DecimalInput>
           </div>
           <div className='flex flex-col items-center justify-center w-1/12'>
-            <button className='block w-full px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600'>
+            <button
+              className='block w-full px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600'
+              onClick={handleBotonbuscar}
+            >
               Buscar
             </button>
           </div>
@@ -241,7 +263,7 @@ const PaginaLocal = () => {
               <img
                 src={imagen}
                 alt='Foto del local'
-                className='w-full h-full object-cover rounded-lg shadow-2xl'
+                className='w-full h-full object-cover rounded-xl shadow-2xl'
               />
             </div>
           ))}
@@ -268,7 +290,7 @@ const PaginaLocal = () => {
                 <h4 className='font-bold text-large text-black pb-4'>
                   {direccion}
                 </h4>
-                <Rate value={valoracion}></Rate>
+                <Rate allowHalf={true} value={valoracion} disabled></Rate>
               </div>
             </div>
             <div>

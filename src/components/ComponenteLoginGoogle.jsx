@@ -2,28 +2,27 @@ import React from 'react';
 import { GoogleOAuthProvider } from '@react-oauth/google';
 import { GoogleLogin } from '@react-oauth/google';
 import jwt_decode from "jwt-decode";
-// import { useNavigate } from "react-router-dom";
-// import { useDispatch } from "react-redux";
-// import { login } from "../redux/userSliz
+import { useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { login } from "../redux/userSlice"; // Import the addUser action from your Redux slice
+import { useSelector } from 'react-redux';
 const GoogleLoginComponent = () => { // Cambiar el nombre de la función
-//   const navigate = useNavigate();
-//   const dispatch = useDispatch();
-//   const nombreLocal = useSelector((state) => state.busqueda.local); 
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const nombreLocal = useSelector(state => state.local.nombreLocal)
   const responseGoogle = (response) => {
     const userObject = jwt_decode(response.credential);
     const { given_name, family_name, email } = userObject; // Asegúrate de que las claves coincidan con las propiedades del estado de Redux
-    // dispatch(login({
-    //   nombre: given_name,
-    //   apellido: family_name,
-    //   email: email
-    // }));
-    // if (nombreLocal) {
-    //   navigate("/local"); // Si hay un local, redirige a /local
-    // } else {
-    //   navigate("/"); // Si no hay local, redirige a /
-    // }  
-}
-
+    dispatch(login({
+      nombre: given_name,
+      apellido: family_name,
+      email: email
+    }));
+    if (nombreLocal) {
+      navigate("/local"); // Si hay un local, redirige a /local
+    } else {
+      navigate("/"); // Si no hay local, redirige a /
+    }  }
   return (
     <div className="">
       <div className="bg-transparent p-4 rounded-lg">

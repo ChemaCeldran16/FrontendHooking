@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import { Modal, Input, Rate } from 'antd';
-// import { useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
+import { color } from 'framer-motion';
 
 const BarraComentario = () => {
   const [showModal, setShowModal] = useState(false);
@@ -10,11 +11,9 @@ const BarraComentario = () => {
   const [valoracion, setValoracion] = useState(0);
   const [showLoginModal, setShowLoginModal] = useState(false); // Nuevo estado para el modal de inicio de sesión
   const navigate = useNavigate();
-//   const user = useSelector((state) => state.user); // Obtén el estado del usuario guardado
-//   const nombreLocal = useSelector((state) => state.busqueda.local);
+  const user = useSelector((state) => state.user); // Obtén el estado del usuario guardado
+  const nombreLocal = useSelector(state => state.local.nombreLocal)
   
-  const user = "" // Obtén el estado del usuario guardado
-  const nombreLocal = "Kanalla Hookah"
 
 
   const handleOpinion = () => {
@@ -27,6 +26,11 @@ const BarraComentario = () => {
   };
 
   const handleModalOk = async () => {
+    if (!opinionInput1 || !opinionInput2 || valoracion === 0) {
+      // Si alguno de los campos no está relleno, muestra un mensaje al usuario
+      alert('Por favor, completa todos los campos antes de enviar tu opinión.');
+      return;
+    }
     const dataToSend = {
       local: nombreLocal,
       email: user.email,
@@ -74,9 +78,8 @@ const BarraComentario = () => {
   };
 
   return (
-    <div style={{ position: 'absolute', bottom: -50, left: 0, right: 0, display: 'flex', justifyContent: 'center', alignItems: 'center', gap: '10%' }}>
-      <p>Dejanos tu opinión</p>
-      <button onClick={handleOpinion}>Opinión</button>
+    <div class="flex flex-row w-full justify-center pl-36">
+                  <button className='bg-blue-400  text-large font-bold rounded-xl w-full' onClick={handleOpinion}> Dejanos tu opinión</button>
 
       <Modal
         title="Opinión"
@@ -85,14 +88,16 @@ const BarraComentario = () => {
         onCancel={handleModalCancel}
         okText="Aceptar"
         cancelText="Cancelar"
-      >
-        <div>
-          <Input value={opinionInput1} onChange={(e) => setOpinionInput1(e.target.value)} placeholder="Titulo" />
+        okButtonProps={{type: 'default'}}
+        cancelButtonProps={{type: 'default', danger: 'true'}}
+        >
+        <div class='pt-4 pb-2'>
+          <Input value={opinionInput1} onChange={(e) => setOpinionInput1(e.target.value)} placeholder="Titulo" className='w-full'/>
         </div>
         <div>
-          <Input value={opinionInput2} onChange={(e) => setOpinionInput2(e.target.value)} placeholder="Opinión" />
+          <Input value={opinionInput2} onChange={(e) => setOpinionInput2(e.target.value)} placeholder="Opinión" className='h-16' />
         </div>
-        <div>
+        <div className='pt-4'>
           <p>Valoración:</p>
           <Rate allowHalf={true} value={valoracion} onChange={handleRateChange} />
         </div>
@@ -105,6 +110,8 @@ const BarraComentario = () => {
         onCancel={handleLoginModalCancel}
         okText="Aceptar"
         cancelText="Cancelar"
+        okButtonProps={{type: 'default'}}
+        cancelButtonProps={{type: 'default', danger: 'true'}}
       >
         <p>Por favor, inicia sesión para dejar tu opinión.</p>
       </Modal>

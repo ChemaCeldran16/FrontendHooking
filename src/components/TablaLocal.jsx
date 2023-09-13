@@ -9,47 +9,75 @@ const onChange = (key) => {
 const TablaLocal = ({ descripcion, menu, opiniones }) => {
   const comentarios = Object.values(opiniones);
   const [showOpinionForm, setShowOpinionForm] = useState(false); // Estado para mostrar/ocultar el formulario de opinión
-
+  const regex = /[\w\s-]+:\d+€/;
   const handleOpinionClick = () => {
     setShowOpinionForm(true); // Mostrar el formulario de opinión al hacer clic en el botón "Opinión"
   };
 
+  const highlightLines = (text) => {
+    // Divide el texto en líneas
+    const lines = text.split('*'); // Dividir por saltos de línea en lugar de asteriscos
+  
+    const highlightedLines = lines.map((line) => {
+      // Verifica si la línea contiene asteriscos al principio y al final
+        if (regex.test(line)){
+          return <>{line}<br  /></>;
+        }else{
+          return <><strong >{line}</strong> <br/></>;
+        }
+    });
+  
+    // Devuelve las líneas resaltadas como un array
+    return highlightedLines;
+  };
+  
+  const highlightedMenu = highlightLines(menu);
+
   const items = [
     {
       key: '1',
+      label: 'Menú',
+      children: highlightedMenu,
+    },
+    {
+      key: '2',
       label: 'Descripción',
       children: descripcion,
     },
     {
-      key: '2',
-      label: 'Menú',
-      children: menu,
+      key: '3',
+      label: 'Horario',
+      children: '9:00 - 14:00'
     },
     {
-      key: '3',
+      key: '4',
       label: 'Opiniones',
       children: (
-        <div style={{ position: 'relative' }}>
-          <div style={{ maxHeight: '350px', overflowY: 'scroll', marginBottom: '60px', paddingRight:'10px'}}>
+        <div class="relative">
+          <div class="max-h-[245px] overflow-y-scroll mb-30 pr-10">
             {comentarios.map((comentario) => (
               <TablaComentario key={comentario.id} comentario={comentario} />
             ))}
           </div>
-          <div>
+          <div class= "pt-12">
+
+          </div>
+          <div class=" absolute top-64">
             <BarraComentario />
           </div>
         </div>
       ),
     },
+
+
   ];
 
   return (
     <div className='bg-purple-400 h-full  rounded-xl pl-4'>
       <Tabs defaultActiveKey="1" items={items} onChange={onChange} />
       {showOpinionForm && (
-        <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', gap: '10%', position: 'absolute', bottom: -50, left: 0, right: 0 }}>
-          <p>Dejanos tu opinión</p>
-          <button onClick={handleOpinionClick}>Opinión</button>
+        <div class="flex justify-end items-end ">
+
         </div>
       )}
     </div>

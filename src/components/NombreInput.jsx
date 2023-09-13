@@ -1,8 +1,7 @@
 import React from "react";
 import { Input } from "@nextui-org/react";
 
-export default function App({ labelName, MensajeError }) {
-  const [value, setValue] = React.useState("");
+export default function App({ labelName, MensajeError, setValue, value }) {
 
   const validateName = (value) => /^[A-Za-z\s]*$/.test(value.trim()); // Cambio en la expresión regular
 

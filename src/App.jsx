@@ -1,33 +1,32 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
-import NavBar from './components/NavBar'
-import { BrowserRouter, Routes, Route } from "react-router-dom";
-import PaginaPrincipal from './paginas/PaginaPrincipal';
-// import PaginaRegistro from './paginas/PaginaRegistro';
-// import PaginaLogin from './paginas/PaginaLogin';
-// import PaginaBusqueda from './paginas/PaginaBusqueda'
+import React from 'react'
+import { Routes, Route, BrowserRouter } from 'react-router-dom'
+
+import PaginaBusqueda from './paginas/PaginaBusqueda'
+import PaginaCarga from './paginas/PaginaCarga'
 import PaginaLocal from './paginas/PaginaLocal'
-export default function App() {
+import PaginaLogin from './paginas/PaginaLogin'
+import PaginaPrincipal from './paginas/PaginaPrincipal'
+import PaginaRegistro from './paginas/PaginaRegistro'
+import { Provider } from 'react-redux'
+import {store} from './redux/store'
+
+function App() {
   return (
-    <BrowserRouter>
-      <div className="w-screen h-screen dark text-foreground bg-background flex items-start justify-center">
-        {/* <PaginaRegistro/> */}
-        {/* <PaginaPrincipal/> */}
-        <PaginaLocal/>
-      </div>
-      <Routes>
-        <Route path="/" >
-          {/* <Route index element={<Home />} />
-            <Route path="/services" element={<Services />} />
-            <Route path="/information" element={<Information />} />
-            <Route path="/services/training" element={<Information />} />
-            <Route path="/services/inference" element={<Information />} />
-            <Route path="/services/mdk" element={<Information />} />          */}
-        </Route>
-      </Routes>
-    </BrowserRouter>
+    <Provider store={store}>
+      <BrowserRouter>
+        <div className='w-screen h-screen dark text-foreground bg-background flex items-start justify-center'>
+          <Routes>
+            <Route path='/' element={<PaginaPrincipal />} />
+            <Route path='/LoginPage' element={<PaginaLogin />} />
+            <Route path='/RegisterPage' element={<PaginaRegistro />} />
+            <Route path='/search' element={<PaginaBusqueda />} />
+            <Route path='/local' element={<PaginaLocal />} />
+            <Route path='/carga' element={<PaginaCarga />} />
+          </Routes>
+        </div>
+      </BrowserRouter>
+    </Provider>
   )
 }
 
+export default App

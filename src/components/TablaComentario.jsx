@@ -45,16 +45,18 @@ const TablaComentario = ({ comentario }) => {
 
   return (
     <List.Item>
-      <div style={{ display: 'flex', flexDirection: 'column' }}>
-        <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-around', alignItems: 'baseline', flexWrap: 'wrap' }}>
+      <div className='flex flex-col ' style={{ display: 'flex', flexDirection: 'column' }}>
+        <div className='flex flex-row items-center justify-around pb-2'>
           <p style={{ fontSize: '16px', fontWeight: 'bold', paddingRight: '10px' }}>{comentario.titulo}</p>
-          <Rate allowHalf defaultValue={comentario.puntuacion} />
+          <Rate allowHalf defaultValue={comentario.puntuacion} disabled />
         </div>
-        <div>
+        <div className='pl-4'>
+          <p>{comentario.mensaje}</p>
+        </div>
+        <div className='flex  pt-2 justify-end'>
           {/* Mostrar el nombre del usuario */}
-          <p>Usuario: {nombreUsuario || "Cargando..."}</p>
+          <p> {nombreUsuario || "Cargando..."}</p>
         </div>
-        <p>{comentario.mensaje}</p>
       </div>
     </List.Item>
   );
