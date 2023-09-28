@@ -47,8 +47,8 @@ const TablaComentario = ({ comentario }) => {
     <List.Item>
       <div className='flex flex-col ' style={{ display: 'flex', flexDirection: 'column' }}>
         <div className='flex flex-row items-center justify-around pb-2'>
-          <p style={{ fontSize: '16px', fontWeight: 'bold', paddingRight: '10px' }}>{comentario.titulo}</p>
-          <Rate allowHalf defaultValue={comentario.puntuacion} disabled />
+          <p className='font-bold text-xl sm:text-sm pr-4'>{comentario.titulo}</p>
+          <Rate className='text-sm' allowHalf defaultValue={comentario.puntuacion} disabled />
         </div>
         <div className='pl-4'>
           <p>{comentario.mensaje}</p>

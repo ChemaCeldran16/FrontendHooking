@@ -9,7 +9,12 @@ import DecimalInput from '../components/InputDecimal'
 import { useSelector } from 'react-redux'
 import { useDispatch } from 'react-redux'
 import { cambioNombre } from '../redux/localSlice'
-import {  cambioTipo,cambioPoblacion, cambioKilometros} from '../redux/searchSlice'
+import {
+  cambioTipo,
+  cambioPoblacion,
+  cambioKilometros,
+} from '../redux/searchSlice'
+import { CarruselImagenes } from '../components/CarruselImagenes' // Ajusta la ruta de importación según tu estructura de archivos
 
 const PaginaLocal = () => {
   const [imagenes, setImagenes] = useState([])
@@ -223,41 +228,52 @@ const PaginaLocal = () => {
     <>
       <NavBar usuario={user} />
       <div className='flex flex-col h-full w-full space-y-8 bg-green-300 '>
-        <div className='flex flex-row w-full h-48  justify-center pt-24 space-x-32'>
-          <div className='flex flex-col w-2/12'>
-            <AutocompletarOpcionesPrincipal
-              options={posibilidadesLocales}
-              onOptionSelected={option =>
-                handleOptionSelected(option, 'opcionesLocales')
-              }
-              labelText='Local'
-            />
-            <AutocompletarOpcionesPrincipal
-              options={posibilidadesTipo}
-              onOptionSelected={handleOptionSelectedTipo}
-              labelText='Tipo'
-            />
+        <div className='flex flex-row w-full h-48  justify-center pt-24 md:space-x-32  sm:pt-32 sm:flex-col '>
+          <div className='flex flex-col w-12/12 sm:flex-row  sm:space-x-8 sm:justify-center pr-6'>
+            <div className='  w-2/5'>
+              <AutocompletarOpcionesPrincipal
+                options={posibilidadesLocales}
+                onOptionSelected={option =>
+                  handleOptionSelected(option, 'opcionesLocales')
+                }
+                labelText='Local'
+              />
+            </div>
+            <div className='  w-2/5'>
+              <AutocompletarOpcionesPrincipal
+                options={posibilidadesTipo}
+                onOptionSelected={handleOptionSelectedTipo}
+                labelText='Tipo'
+              />
+            </div>
           </div>
-          <div className='flex flex-col w-2/12 '>
-            <AutocompletarOpcionesPrincipal
-              options={posibilidadesDonde}
-              onOptionSelected={option =>
-                handleOptionSelected(option, 'opcionesDonde')
-              }
-              labelText='Lugar'
-            />
-            <DecimalInput onChange={handleDecimalChange}></DecimalInput>
+          <div className='flex flex-col w-12/12 sm:flex-row  sm:space-x-8 sm:justify-center pr-6'>
+            <div className='  w-2/5'>
+              <AutocompletarOpcionesPrincipal
+                options={posibilidadesDonde}
+                onOptionSelected={option =>
+                  handleOptionSelected(option, 'opcionesDonde')
+                }
+                labelText='Lugar'
+              />
+            </div>
+            <div className='  w-2/5 h-16'>
+              <DecimalInput
+                onChange={handleDecimalChange}
+                labelText='Kms'
+              ></DecimalInput>
+            </div>
           </div>
-          <div className='flex flex-col items-center justify-center w-1/12'>
+          <div className='flex flex-col items-center justify-center w-12/12 sm:flex-row justify-center '>
             <button
-              className='block w-full px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600'
+              className='block w-full px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 w-5/12'
               onClick={handleBotonbuscar}
             >
               Buscar
             </button>
           </div>
         </div>
-        <div className='flex flex-row w-full justify-center items-center '>
+        <div className='flex flex-row w-full justify-center items-center hidden '>
           {imagenes.map((imagen, index) => (
             <div className='w-96 h-56 m-4' key={index}>
               <img
@@ -268,15 +284,38 @@ const PaginaLocal = () => {
             </div>
           ))}
         </div>
-        <div className='flex w-full flex-row  justify-center items-center space-x-32'>
-          <div className='w-1/4 content-end rounded-xl h-full pb-32'>
+        <div className=' pt-8 md:hidden'>
+        <div className='flex flex-col  justify-between pl-4'>
+              <div className='flex flex-row items-center justify-between w-10/12 pb-2'>
+                <h4 className='font-bold text-md text-black '>
+                  {nombreSitio}
+                </h4>
+                <Rate allowHalf={true} value={valoracion} disabled></Rate>
+              </div>
+              <div className='flex flex-row justify-between  w-10/12'>
+                <h4 className=' text-md text-black '>
+                  {direccion}
+                </h4>
+                <h4 className=' text-md text-black '>
+                  {tipoSitio}
+                </h4>
+              </div>
+            </div>
+        </div>
+
+        <div className='flex flex-row w-full justify-center items-center   '>
+          {console.log(imagenes)}
+          <CarruselImagenes images={imagenes} />
+        </div>
+        <div className='flex w-full flex-row  justify-center items-center space-x-32 '>
+          <div className='w-10/12 content-end rounded-xl h-full sm:h-auto pb-32'>
             <TablaLocal
               descripcion={descripcion}
               menu={menu}
               opiniones={opiniones}
             />
           </div>
-          <div className=' flex flex-col pb-12 w-1/4 '>
+          <div className=' flex flex-col pb-12 w-1/4 hidden md:block'>
             <div className='flex flex-row pb-4 justify-between'>
               <div className='flex flex-col'>
                 <h4 className='font-bold text-large text-black pb-4'>
@@ -293,7 +332,7 @@ const PaginaLocal = () => {
                 <Rate allowHalf={true} value={valoracion} disabled></Rate>
               </div>
             </div>
-            <div>
+            <div className='hidden md:block'>
               {mostrarMapa && (
                 <Mapa coordenadas={[{ latitud, longitud }]} altura='320px' />
               )}

@@ -217,11 +217,11 @@ const PaginaBusqueda = () => {
   return (
     <>
       <NavBar usuario={user} />
-      <div className='flex flex-row h-screen w-full bg-orange-300 bg-center  pt-16  '>
-        <div className='flex  w-1/2'>
-          <div className='w-1/3'></div>
-          <div className=' flex flex-col    w-2/3  items-center space-y-8 pt-8'>
-            <div className='flex-row bg-black bg-opacity-70 px-8 py-6 rounded-lg shadow-md w-8/12 '>
+      <div className='flex md:flex-row h-screen w-screen bg-orange-300 bg-center  pt-16  sm:flex-col sm:items-center'>
+        <div className='flex  w-1/2 sm:w-full'>
+          <div className='w-1/3 hidden md:block'></div>
+          <div className=' flex flex-col    w-2/3  items-center space-y-8 pt-8 sm:w-full'>
+            <div className='flex-row bg-black bg-opacity-70 px-8 py-6 rounded-lg shadow-md w-8/12 sm:w-10/12'>
               <h4 className='font-bold text-large pb-4'>
                 Busca tu mejor lugar
               </h4>
@@ -252,14 +252,19 @@ const PaginaBusqueda = () => {
                 Buscar
               </button>
             </div>
-            <div className='pb-12 w-4/5 h-auto'>
+            <div className='md:hidden pb-2'>
+                <label className='font-bold text-large '>
+                  Resultados de tu búsqueda
+                </label>
+            </div>
+            <div className='pb-12 w-4/5 h-auto hidden md:block'>
               {console.log(locales)}
               {locales && <Mapa coordenadas={locales} />}
             </div>
           </div>
         </div>
-        <div className='flex  w-1/2'>
-          <div className=' w-2/3 '>
+        <div className='flex  w-1/2 sm:w-10/12'>
+          <div className=' w-2/3 sm:w-full '>
             {isLoading ? (
               // Muestra un estado de carga mientras isLoading es true
               <div className=' flex w-full h-full justify-center items-center'>

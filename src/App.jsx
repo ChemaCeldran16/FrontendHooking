@@ -14,7 +14,7 @@ function App() {
   return (
     <Provider store={store}>
       <BrowserRouter>
-        <div className='w-screen h-screen dark text-foreground bg-background flex items-start justify-center'>
+        <div >
           <Routes>
             <Route path='/' element={<PaginaPrincipal />} />
             <Route path='/LoginPage' element={<PaginaLogin />} />

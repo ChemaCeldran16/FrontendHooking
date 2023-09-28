@@ -197,9 +197,9 @@ export default function PaginaPrincipal() {
   return (
     <>
       <NavBar usuario={user} />
-      <div className='h-screen w-screen bg-fondo bg-cover bg-center flex justify-center items-start pr-64 pt-32  '>
-        <div className='flex-col pl-48 w-3/4 bg-tranparent h-full'>
-          <div className='bg-black bg-opacity-70 px-8 py-6 rounded-lg shadow-md w-1/2'>
+      <div className='h-screen w-screen bg-fondo bg-cover bg-center flex justify-center items-start  sm:pt-20'>
+        <div className='flex flex-col  md:pl-48  md:w-3/4 bg-tranparent h-full sm:items-center '>
+          <div className='bg-black bg-opacity-70 px-8 py-6 rounded-lg shadow-md md:w-1/2 sm:w-3/4'>
             <h4 className='font-bold text-large pb-4'>Busca tu mejor lugar</h4>
             <AutocompletarOpcionesPrincipal
               options={posibilidadesLocales}
@@ -232,16 +232,20 @@ export default function PaginaPrincipal() {
             id='recomendacion'
             className='flex flex-col bg-transparent pt-16 w-full '
           >
-            <h4 className='font-bold text-large'>
+            <h4 className='font-bold text-large sm:pl-12'>
               Prueba nuestras recomendaciones
             </h4>
             <div
               id='localesRecomendacion'
-              className=' flex flex-row justify-between py-4'
+              className='flex flex-row py-4 sm:flex-wrap sm:justify-center sm:space-x-2 md:justify-center '
             >
               {localData &&
                 localData.map((local, index) => (
-                  <div key={index} onClick={() => handleRecomendacion(local.nombre)}>
+                  <div
+                    key={index}
+                    className='mb-4'
+                    onClick={() => handleRecomendacion(local.nombre)}
+                  >
                     <TarjetaRecomendacion
                       nombre={local.nombre}
                       valoracion={local.valoracion}

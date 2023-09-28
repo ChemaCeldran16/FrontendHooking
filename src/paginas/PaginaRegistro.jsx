@@ -59,11 +59,11 @@ export default function PaginaPrincipal() {
     }, [password, confirmPassword]);
 
     return (
-        <div className="flex w-full h-full justify-center pt-16 pb-12">
-            <div className="bg-gray-900 w-1/4 p-12 rounded-lg">
-                <div className="flex-col content-center bg-gray-700  w-full h-full rounded-lg p-8">
+        <div className="flex 2xl:w-full 2xl:h-full justify-center 2xl:pt-16 md:pt-8 sm:pt-4  pb-12">
+            <div className="xl:p-12 md:p-8 rounded-lg sm:p-4 sm:px-8 ">
+                <div className="flex-col content-center bg-gray-800  w-full xl:h-full rounded-lg xl:p-8 md:p-8 sm:p-4 ">
                     <MarcaRegistroLogin />
-                    <div className="flex-col pt-4 space-y-4">
+                    <div className="flex-col pt-4  space-y-4">
                         <MailInput 
                         value={email}
                         setValue={setEmail}
