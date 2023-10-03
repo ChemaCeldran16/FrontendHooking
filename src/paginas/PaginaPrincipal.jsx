@@ -197,9 +197,9 @@ export default function PaginaPrincipal() {
   return (
     <>
       <NavBar usuario={user} />
-      <div className='h-screen w-screen bg-fondo bg-cover bg-center flex justify-center items-start  sm:pt-20'>
-        <div className='flex flex-col  md:pl-48  md:w-3/4 bg-tranparent h-full sm:items-center '>
-          <div className='bg-black bg-opacity-70 px-8 py-6 rounded-lg shadow-md md:w-1/2 sm:w-3/4'>
+      <div className='h-full w-screen bg-fondo  bg-fixed bg-cover bg-center flex justify-center items-start  sm:pt-20 md:pt-24 md:h-screen'>
+        <div className='flex flex-col   bg-tranparent h-full sm:items-center   md:w-4/4 '>
+          <div className='bg-black bg-opacity-70 px-8 py-6 rounded-lg shadow-md  sm:w-3/4 md:w-1/2'>
             <h4 className='font-bold text-large pb-4'>Busca tu mejor lugar</h4>
             <AutocompletarOpcionesPrincipal
               options={posibilidadesLocales}
@@ -220,7 +220,10 @@ export default function PaginaPrincipal() {
               }
               labelText='Lugar'
             />
+            <div className='h-16 pb-4'>
             <DecimalInput onChange={handleDecimalChange}></DecimalInput>
+
+            </div>
             <button
               className='block w-full px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600'
               onClick={handleBotonbuscar}
@@ -230,14 +233,14 @@ export default function PaginaPrincipal() {
           </div>
           <div
             id='recomendacion'
-            className='flex flex-col bg-transparent pt-16 w-full '
+            className='flex flex-col bg-transparent pt-16 w-full md:pt-24'
           >
-            <h4 className='font-bold text-large sm:pl-12'>
-              Prueba nuestras recomendaciones
+            <h4 className='font-bold text-large sm:pl-12 md:text-xl md:pb-4'>
+               Nuestras recomendaciones
             </h4>
             <div
               id='localesRecomendacion'
-              className='flex flex-row py-4 sm:flex-wrap sm:justify-center sm:space-x-2 md:justify-center '
+              className='flex flex-row py-4 sm:flex-wrap sm:justify-center sm:space-x-2 md:justify-between '
             >
               {localData &&
                 localData.map((local, index) => (

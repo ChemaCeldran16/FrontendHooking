@@ -80,7 +80,7 @@ export default function PaginaPrincipal() {
         </div>
         <div className='flex justify-center pt-8 pb-8'>
           <button
-            className='block w-3/4 px-4 py-2 bg-teal-700 text-white rounded-lg hover:bg-teal-600'
+            className='block w-3/4 px-4 py-2 bg-teal-700 text-white rounded-lg hover:bg-teal-600 md:w-10/12'
             onClick={handleLogin}
           >
             Iniciar Sesión

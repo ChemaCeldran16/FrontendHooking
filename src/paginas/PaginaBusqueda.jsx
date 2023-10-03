@@ -217,10 +217,10 @@ const PaginaBusqueda = () => {
   return (
     <>
       <NavBar usuario={user} />
-      <div className='flex md:flex-row h-screen w-screen bg-orange-300 bg-center  pt-16  sm:flex-col sm:items-center'>
+      <div className='h-full w-screen flex   bg-orange-300 bg-center  pt-16  sm:flex-col sm:items-center md:flex-row'>
         <div className='flex  w-1/2 sm:w-full'>
-          <div className='w-1/3 hidden md:block'></div>
-          <div className=' flex flex-col    w-2/3  items-center space-y-8 pt-8 sm:w-full'>
+          <div className='w-1/3 hidden lg:block'></div>
+          <div className=' flex flex-col    w-2/3  items-center space-y-8 pt-8 sm:w-full md:pt-16'>
             <div className='flex-row bg-black bg-opacity-70 px-8 py-6 rounded-lg shadow-md w-8/12 sm:w-10/12'>
               <h4 className='font-bold text-large pb-4'>
                 Busca tu mejor lugar
@@ -244,7 +244,9 @@ const PaginaBusqueda = () => {
                 }
                 labelText='Lugar'
               />
+              <div className='h-16 pb-4'>
               <DecimalInput onChange={handleDecimalChange}></DecimalInput>
+              </div>
               <button
                 className='block w-full px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600'
                 onClick={handleBotonbuscar}
@@ -263,11 +265,11 @@ const PaginaBusqueda = () => {
             </div>
           </div>
         </div>
-        <div className='flex  w-1/2 sm:w-10/12'>
+        <div className='flex  w-1/2 sm:w-10/12 md:w-11/12 md:pr-4'>
           <div className=' w-2/3 sm:w-full '>
             {isLoading ? (
               // Muestra un estado de carga mientras isLoading es true
-              <div className=' flex w-full h-full justify-center items-center'>
+              <div className=' flex w-full h-full justify-center items-center '>
                 <Spinner />
               </div>
             ) : (

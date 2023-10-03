@@ -43,10 +43,10 @@ export default function NavBar({ usuario }) {
       <NavbarContent justify='end'>
         {!usuario || usuario.nombre === '' ? (
           <>
-            <NavbarItem className='hidden lg:flex'>
+            <NavbarItem className='hidden md:flex lg:flex'>
               <Link href='/RegisterPage'>Regístrate</Link>
             </NavbarItem>
-            <NavbarItem className='hidden lg:flex'>
+            <NavbarItem className='hidden md:flex lg:flex'>
               <Button
                 as={Link}
                 color='primary'
@@ -60,7 +60,7 @@ export default function NavBar({ usuario }) {
         ) : (
           <>
             <div className='text-white p-4'>Hola, {usuario.nombre}</div>
-            <NavbarItem className='hidden lg:flex'>
+            <NavbarItem className='hidden md:flex lg:flex'>
               <Button color='danger' onClick={handleCerrarSesion}>
                 Cerrar Sesión
               </Button>
