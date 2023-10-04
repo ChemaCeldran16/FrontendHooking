@@ -227,11 +227,13 @@ const PaginaLocal = () => {
   return (
     <>
       <NavBar usuario={user} />
-      <div className='flex flex-col h-full w-full space-y-8 bg-green-300 md:items-center md:space-y-2'>
-        <div className='flex flex-row w-full h-48 sm:h-auto justify-center pt-20  sm:flex-col md:w-1/2  md:pt-24 md:pb-4'>
-          <h4 className='font-bold text-large text-black pl-4 pb-4'>Busca tu mejor lugar</h4>
-          <div className='flex flex-col w-12/12 sm:flex-row  sm:space-x-8 sm:justify-center sm:pr-6 md:flex-col md:space-x-0 md:pr-0 md:items-center '>
-          <div className='w-2/5 md:w-9/12 md:mx-auto md:flex md:justify-center md:items-center'>
+      <div className='flex flex-col h-full w-full space-y-8 bg-green-300 md:items-center md:space-y-2 lg:w-screen'>
+        <div className='flex flex-row w-full h-48 sm:h-auto justify-center pt-20  sm:flex-col md:w-1/2  md:pt-24 md:pb-4  lg:w-full lg:justify-center'>
+          <h4 className='font-bold text-large text-black pl-4 pb-4 lg:pl-32'>
+            Busca tu mejor lugar
+          </h4>
+          <div className='flex flex-col w-12/12 sm:flex-row  sm:space-x-8 sm:justify-center sm:pr-6 md:flex-col md:space-x-0 md:pr-0 md:items-center lg:flex-row lg:pr-48'>
+            <div className='w-2/5 md:w-9/12 md:mx-auto md:flex md:justify-center md:items-center lg:w-1/3'>
               <AutocompletarOpcionesPrincipal
                 options={posibilidadesLocales}
                 onOptionSelected={option =>
@@ -240,7 +242,7 @@ const PaginaLocal = () => {
                 labelText='Local'
               />
             </div>
-            <div className='  w-2/5 md:w-9/12 md:mx-auto md:flex md:justify-center md:items-center'>
+            <div className='  w-2/5 md:w-9/12 md:mx-auto md:flex md:justify-center md:items-center lg:w-1/3'>
               <AutocompletarOpcionesPrincipal
                 options={posibilidadesTipo}
                 onOptionSelected={handleOptionSelectedTipo}
@@ -248,8 +250,9 @@ const PaginaLocal = () => {
               />
             </div>
           </div>
-          <div className='flex flex-col w-12/12 sm:flex-row  sm:space-x-8 sm:justify-center sm:pr-6 md:flex-col md:space-x-0 md:pr-0 md:items-center'>
-            <div className='  w-2/5 md:w-9/12 md:mx-auto md:flex md:justify-center md:items-center'>
+          <div
+            className='flex flex-col w-12/12 sm:flex-row  sm:space-x-8 sm:justify-center sm:pr-6 md:flex-col md:space-x-0 md:pr-0 md:items-center lg:flex-row lg:pr-48 '>
+            <div className='  w-2/5 md:w-9/12 md:mx-auto md:flex md:justify-center md:items-center lg:w-1/3'>
               <AutocompletarOpcionesPrincipal
                 options={posibilidadesDonde}
                 onOptionSelected={option =>
@@ -258,7 +261,7 @@ const PaginaLocal = () => {
                 labelText='Lugar'
               />
             </div>
-            <div className='  w-2/5 h-14 md:w-9/12 md:mx-auto md:h-20 md:pb-4 md:flex md:justify-center md:items-center md:pt-2'>
+            <div className='  w-2/5 h-14 md:w-9/12 md:mx-auto md:h-20 md:pb-4 md:flex md:justify-center md:items-center md:pt-2 lg:w-1/3 lg:pt-4 lg:pb-2 '>
               <DecimalInput
                 onChange={handleDecimalChange}
                 labelText='Kms'
@@ -267,16 +270,30 @@ const PaginaLocal = () => {
           </div>
           <div className='flex flex-col items-center justify-center w-12/12 sm:flex-row justify-center '>
             <button
-              className='block w-full px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 sm:w-5/12 md:w-6/12'
+              className='block w-full px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 sm:w-5/12 md:w-6/12 lg:w-1/3' 
               onClick={handleBotonbuscar}
             >
               Buscar
             </button>
           </div>
         </div>
-        <div className='flex flex-row w-full justify-center items-center sm:hidden lg:block'>
+        <div className='flex flex-row pb-4 w-8/12 justify-between hidden md:block '>
+          <div className='flex flex-row justify-between'>
+            <h4 className='font-bold text-large text-black pb-4'>
+              {nombreSitio}
+            </h4>
+            <h4 className='font-bold text-large text-black pb-4'>
+              {tipoSitio}
+            </h4>
+          </div>
+          <div className='flex flex-row justify-between'>
+            <h4 className='font-bold text-large text-black'>{direccion}</h4>
+            <Rate allowHalf={true} value={valoracion} disabled></Rate>
+          </div>
+        </div>
+        <div className='flex flex-row flex-wrap justify-center items-center sm:hidden lg:flex lg:block '>
           {imagenes.map((imagen, index) => (
-            <div className='w-96 h-56 m-4' key={index}>
+            <div className='w-80 h-56 m-4' key={index}>
               <img
                 src={imagen}
                 alt='Foto del local'
@@ -285,7 +302,7 @@ const PaginaLocal = () => {
             </div>
           ))}
         </div>
-        <div className=' pt-2 md:hidden'>
+        <div className=' pt-2 md:hidden '>
           <div className='flex flex-col  justify-between pl-4'>
             <div className='flex flex-row items-center justify-between w-10/12 pb-2'>
               <h4 className='font-bold text-md text-black '>{nombreSitio}</h4>
@@ -297,28 +314,12 @@ const PaginaLocal = () => {
             </div>
           </div>
         </div>
-        <div className='flex flex-row pb-4 w-8/12 justify-between hidden md:block lg:hidden'>
-          <div className='flex flex-row justify-between'>
-            <h4 className='font-bold text-large text-black pb-4'>
-              {nombreSitio}
-            </h4>
-            <h4 className='font-bold text-large text-black pb-4'>
-              {tipoSitio}
-            </h4>
-          </div>
-          <div className='flex flex-row justify-between'>
-            <h4 className='font-bold text-large text-black'>
-              {direccion}
-            </h4>
-            <Rate allowHalf={true} value={valoracion} disabled></Rate>
-          </div>
-        </div>
         <div className='flex flex-row w-full justify-center items-center  md:w-3/5  lg:hidden  '>
           {console.log(imagenes)}
           <CarruselImagenes images={imagenes} />
         </div>
-        <div className='flex w-full flex-row  justify-center items-center lg:space-x-32 md:space-x-8 md:justify-between md:w-10/12 '>
-          <div className='w-10/12 content-end rounded-xl h-full sm:h-auto pb-32 md:w-1/2 md:pt-16'>
+        <div className='flex w-full flex-row  justify-center items-center lg:space-x-32 md:space-x-8 md:justify-between md:w-10/12  '>
+          <div className='w-10/12 content-end rounded-xl h-full sm:h-auto pb-32 md:w-1/2 md:pt-16 lg:w-10/12'>
             <TablaLocal
               descripcion={descripcion}
               menu={menu}
@@ -326,22 +327,6 @@ const PaginaLocal = () => {
             />
           </div>
           <div className=' flex flex-col pb-12 w-1/4 hidden md:block md:w-9/12'>
-            <div className='flex flex-row pb-4 justify-between hidden'>
-              <div className='flex flex-col'>
-                <h4 className='font-bold text-large text-black pb-4'>
-                  {nombreSitio}
-                </h4>
-                <h4 className='font-bold text-large text-black pb-4'>
-                  {tipoSitio}
-                </h4>
-              </div>
-              <div className='flex flex-col'>
-                <h4 className='font-bold text-large text-black pb-4'>
-                  {direccion}
-                </h4>
-                <Rate allowHalf={true} value={valoracion} disabled></Rate>
-              </div>
-            </div>
             <div className='hidden md:block'>
               {mostrarMapa && (
                 <Mapa coordenadas={[{ latitud, longitud }]} altura='320px' />

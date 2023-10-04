@@ -217,10 +217,10 @@ const PaginaBusqueda = () => {
   return (
     <>
       <NavBar usuario={user} />
-      <div className='h-full w-screen flex   bg-orange-300 bg-center  pt-16  sm:flex-col sm:items-center md:flex-row'>
-        <div className='flex  w-1/2 sm:w-full'>
-          <div className='w-1/3 hidden lg:block'></div>
-          <div className=' flex flex-col    w-2/3  items-center space-y-8 pt-8 sm:w-full md:pt-16'>
+      <div className='h-full w-screen flex   bg-orange-300 bg-center  pt-16  sm:flex-col sm:items-center md:flex-row '>
+        <div className='flex  w-1/2 sm:w-full lg:pl-16' >
+          <div className='w-2/12 hidden '></div>
+          <div className=' flex flex-col    w-2/3  items-center space-y-8 pt-8 sm:w-full md:pt-16  lg:w-10/12  '>
             <div className='flex-row bg-black bg-opacity-70 px-8 py-6 rounded-lg shadow-md w-8/12 sm:w-10/12'>
               <h4 className='font-bold text-large pb-4'>
                 Busca tu mejor lugar
@@ -265,7 +265,7 @@ const PaginaBusqueda = () => {
             </div>
           </div>
         </div>
-        <div className='flex  w-1/2 sm:w-10/12 md:w-11/12 md:pr-4'>
+        <div className='flex  w-1/2 sm:w-10/12 md:w-11/12 md:pr-4 lg:pr-12'>
           <div className=' w-2/3 sm:w-full '>
             {isLoading ? (
               // Muestra un estado de carga mientras isLoading es true

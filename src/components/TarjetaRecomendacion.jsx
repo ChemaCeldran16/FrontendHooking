@@ -10,7 +10,7 @@ export default function LocalCard({ nombre, valoracion, imagen }) {
         <Rate allowHalf disabled value={valoracion} />
       </CardHeader>
       <CardBody className="overflow-visible py-2">
-        <Image alt={nombre} className="object-cover w-48 h-48 sm:w-28 sm:h-28" src={imagen} />
+        <Image alt={nombre} className="object-cover w-48 h-48 sm:w-28 sm:h-28 lg:w-32 lg:h-32" src={imagen} />
       </CardBody>
     </Card>
   );
