@@ -56,7 +56,9 @@ const PaginaBusqueda = () => {
         const datos = await respuesta.json()
         // Aquí puedes hacer algo con los datos recibidos, por ejemplo, almacenarlos en el estado local del componente
         setLocales(datos)
-        console.log(datos)
+        if(datos.length==0){
+          navigate("/cargalocal0")
+        }
       } else {
         throw new Error('Error al obtener los objetos locales')
       }
@@ -188,7 +190,7 @@ const PaginaBusqueda = () => {
         dispatch(cambioPoblacion(selectedOptionPoblacion))
         dispatch(cambioKilometros(decimalValue))
         // Navegar a "/search"
-        navigate('/search')
+        navigate('/cargaBusqueda')
       }
     }
   }
@@ -200,6 +202,8 @@ const PaginaBusqueda = () => {
 
     // Add your logic here
   }
+  
+
 
   useEffect(() => {
     // Lógica a ejecutar al cargar la página
@@ -217,13 +221,13 @@ const PaginaBusqueda = () => {
   return (
     <>
       <NavBar usuario={user} />
-      <div className='h-full w-screen flex   bg-orange-300 bg-center  pt-16  sm:flex-col sm:items-center md:flex-row '>
-        <div className='flex  w-1/2 sm:w-full lg:pl-16' >
-          <div className='w-2/12 hidden '></div>
-          <div className=' flex flex-col    w-2/3  items-center space-y-8 pt-8 sm:w-full md:pt-16  lg:w-10/12  '>
-            <div className='flex-row bg-black bg-opacity-70 px-8 py-6 rounded-lg shadow-md w-8/12 sm:w-10/12'>
-              <h4 className='font-bold text-large pb-4'>
-                Busca tu mejor lugar
+      <div className='h-full w-screen flex   bg-fondo bg-cover bg-center  pt-16  sm:flex-col sm:items-center md:flex-row lg:pt-8 xl:pt-8'>
+        <div className='flex  w-1/2 sm:w-full lg:pl-16'>
+          <div className='w-1/12 hidden 2xl:block '></div>
+          <div className=' flex flex-col    w-2/3  items-center space-y-8 pt-8 sm:w-full md:pt-16  lg:w-10/12  2xl:w-9/12'>
+            <div className='flex-row bg-azul-oscuro bg-opacity-70 px-8 py-6 rounded-lg shadow-md w-8/12 sm:w-10/12 '>
+              <h4 className='text-large pb-4 font-luckiestGuy md:text-xl 2xl:text-2xl text-orange-400'>
+                Descubre tu lugar
               </h4>
               <AutocompletarOpcionesPrincipal
                 options={posibilidadesLocales}
@@ -245,27 +249,29 @@ const PaginaBusqueda = () => {
                 labelText='Lugar'
               />
               <div className='h-16 pb-4'>
-              <DecimalInput onChange={handleDecimalChange}></DecimalInput>
+                <DecimalInput
+                  onChange={handleDecimalChange}
+                  labelText={'Kms'}
+                ></DecimalInput>
               </div>
               <button
-                className='block w-full px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600'
+                className='block w-full px-4 py-2 bg-azul-claro text-black font-acme text-xl rounded-lg hover:bg-blue-500 lg:w-8/12 lg:mx-auto'
                 onClick={handleBotonbuscar}
               >
                 Buscar
               </button>
             </div>
             <div className='md:hidden pb-2'>
-                <label className='font-bold text-large '>
-                  Resultados de tu búsqueda
-                </label>
+              <label className='font-bold text-large '>
+                Resultados de tu búsqueda
+              </label>
             </div>
             <div className='pb-12 w-4/5 h-auto hidden md:block'>
-              {console.log(locales)}
               {locales && <Mapa coordenadas={locales} />}
             </div>
           </div>
         </div>
-        <div className='flex  w-1/2 sm:w-10/12 md:w-11/12 md:pr-4 lg:pr-12'>
+        <div className='flex  w-1/2 sm:w-10/12 md:w-11/12 md:pr-4 lg:pr-12 xl:pt-12'>
           <div className=' w-2/3 sm:w-full '>
             {isLoading ? (
               // Muestra un estado de carga mientras isLoading es true
@@ -284,6 +290,7 @@ const PaginaBusqueda = () => {
                 {locales.length > itemsPerPage && (
                   <div className='flex justify-center'>
                     <Pagination
+                      className='sm:text-md xl:text-lg bg-blanco-gris rounded-2xl bg-opacity-40 '
                       current={currentPage}
                       pageSize={itemsPerPage}
                       total={locales.length}

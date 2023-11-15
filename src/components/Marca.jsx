@@ -19,7 +19,7 @@ const Marca = () => {
     <div className='flex items-center h-[var(--navbar-height)]'>
     <button className="flex items-center boton" onClick={handleClickTitulo}>
       <img src={logo} alt="Hooking" className='h-12 w-12 object-contain md:h-14' />
-      <span className="ml-2 text-sm font-bold md:text-lg">Hooking</span>
+      <span className="ml-2 text-md  md:text-xl font-pacifico xl:text-2xl">Hooking</span>
     </button>
   </div>
   );

@@ -19,7 +19,7 @@ const MarcaRegistroLogin = () => {
     <div className='flex items-center pl-8'>
     <button className="flex items-center boton" onClick={handleClickTitulo}>
       <img src={logo} alt="Hooking" className='h-20 w-16 object-contain md:h-24 md:w-20' />
-      <span className="ml-8 text-lg font-bold md:text-xl">Hooking</span>
+      <span className="ml-8 text-2xl md:text-3xl  font-pacifico 2xl:text-3xl">Hooking</span>
     </button>
   </div>
   );

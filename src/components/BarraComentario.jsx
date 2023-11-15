@@ -78,8 +78,8 @@ const BarraComentario = () => {
   };
 
   return (
-    <div class="flex flex-row w-full justify-center pl-36 sm:pl-16">
-                  <button className='bg-blue-400  text-large font-bold rounded-xl w-full' onClick={handleOpinion}> Dejanos tu opinión</button>
+    <div class="flex flex-row w-full justify-center pl-36 sm:pl-16 lg:pl-28 xl:pt-28 xl:pl-32 2xl:pl-52 2xl:pt-30">
+                  <button className='bg-orange-400  text-large font-bold font-fredoka rounded-md w-full 2xl:text-2xl' onClick={handleOpinion}> Dejanos tu opinión</button>
 
       <Modal
         title="Opinión"

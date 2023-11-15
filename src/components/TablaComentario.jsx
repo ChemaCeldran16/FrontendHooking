@@ -45,15 +45,15 @@ const TablaComentario = ({ comentario }) => {
 
   return (
     <List.Item>
-      <div className='flex flex-col ' style={{ display: 'flex', flexDirection: 'column' }}>
-        <div className='flex flex-row items-center justify-around pb-2'>
-          <p className='font-bold text-xl sm:text-sm pr-4'>{comentario.titulo}</p>
-          <Rate className='text-sm' allowHalf defaultValue={comentario.puntuacion} disabled />
+      <div className='flex flex-col border-b-2  border-blue-900 p-2 ' style={{ display: 'flex', flexDirection: 'column' }}>
+        <div className='flex flex-row items-center justify-around pb-2 xl:justify-between'>
+          <p className='font-bold text-xl sm:text-sm pr-4 font-raleway xl:text-xl '>{comentario.titulo}</p>
+          <Rate className='text-sm xl:text-lg' allowHalf defaultValue={comentario.puntuacion} disabled />
         </div>
-        <div className='pl-4'>
+        <div className='pl-4 font-roboto '>
           <p>{comentario.mensaje}</p>
         </div>
-        <div className='flex  pt-2 justify-end'>
+        <div className='flex  pt-2 justify-end font-dancingScript'>
           {/* Mostrar el nombre del usuario */}
           <p> {nombreUsuario || "Cargando..."}</p>
         </div>

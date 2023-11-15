@@ -63,7 +63,7 @@ const Mapa = ({ coordenadas, altura }) => {
     }
   }, [coordenadas]);
 
-  return <div ref={mapContainerRef} style={{ height: altura || '400px' }} />; 
+  return <div ref={mapContainerRef}  style={{ height: altura || '400px' }} />; 
   
 };
 

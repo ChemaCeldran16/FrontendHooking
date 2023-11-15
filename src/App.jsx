@@ -7,6 +7,8 @@ import PaginaLocal from './paginas/PaginaLocal'
 import PaginaLogin from './paginas/PaginaLogin'
 import PaginaPrincipal from './paginas/PaginaPrincipal'
 import PaginaRegistro from './paginas/PaginaRegistro'
+import PaginaCargaBusquedaLocal0 from './paginas/PaginaCargaBusquedaLocal0'
+import PaginaCargaBusqueda from './paginas/PaginaCargaBusqueda'
 import { Provider } from 'react-redux'
 import {store} from './redux/store'
 
@@ -22,7 +24,10 @@ function App() {
             <Route path='/search' element={<PaginaBusqueda />} />
             <Route path='/local' element={<PaginaLocal />} />
             <Route path='/carga' element={<PaginaCarga />} />
+            <Route path='/cargaLocal0' element={<PaginaCargaBusquedaLocal0 />} />
+            <Route path='/cargaBusqueda' element={<PaginaCargaBusqueda />} />
           </Routes>
+
         </div>
       </BrowserRouter>
     </Provider>
