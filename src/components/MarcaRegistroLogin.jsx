@@ -1,5 +1,5 @@
 import React from 'react';
-import logo from '../static/logo2.png';
+import logo from '../static/img/logo.png';
 import { useNavigate } from 'react-router-dom';
 
 
@@ -18,8 +18,8 @@ const MarcaRegistroLogin = () => {
   return (
     <div className='flex items-center pl-8'>
     <button className="flex items-center boton" onClick={handleClickTitulo}>
-      <img src={logo} alt="Hooking" className='h-20 w-16 object-contain' />
-      <span className="ml-8 text-lg font-bold">Hooking</span>
+      <img src={logo} alt="Hooking" className='h-20 w-16 object-contain md:h-24 md:w-20' />
+      <span className="ml-8 text-2xl md:text-3xl  font-pacifico 2xl:text-3xl">Hooking</span>
     </button>
   </div>
   );

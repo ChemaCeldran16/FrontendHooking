@@ -49,7 +49,7 @@ const DecimalInput = ({ labelText }) => {
         onChange={handleChange}
         onBlur={handleBlur}
         className={clsx(
-          "w-full p-3 mb-4  rounded-lg placeholder-black text-black bg-teal-700"
+          "h-full w-full p-3 mb-4  rounded-lg placeholder-black text-black bg-blue-400"
         )}
         placeholder={labelText || "Ingresar número decimal"}
       />

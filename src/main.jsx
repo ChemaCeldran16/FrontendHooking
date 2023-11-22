@@ -5,9 +5,9 @@ import App from './App'
 import './index.css'
 
 ReactDOM.createRoot(document.getElementById('root')).render(
-  <React.StrictMode>
     <NextUIProvider>
+    <div className='w-screen h-full dark text-foreground bg-black flex  justify-center'>
       <App />
+    </div>
     </NextUIProvider>
-  </React.StrictMode>,
 )

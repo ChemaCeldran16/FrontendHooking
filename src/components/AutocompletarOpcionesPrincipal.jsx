@@ -7,7 +7,7 @@ const InputBuscador = ({ options, onOptionSelected, labelText }) => {
   return (
     <Autocomplete
       id="buscador-select"
-      className="flex w-full mb-4 bg-teal-700 rounded-lg "
+      className="flex w-full mb-4 bg-blue-400 rounded-lg sm:mb-2 "
       options={options}
       autoHighlight
       getOptionLabel={(option) => option.label}
@@ -22,9 +22,9 @@ const InputBuscador = ({ options, onOptionSelected, labelText }) => {
           label={labelText || "Buscar"}
           inputProps={{
             ...params.inputProps,
-            autoComplete: "new-password", // disable autocomplete and autofill
+            autoComplete: "new-password", // disable autocosmplete and autofill
           }}
-        />
+          />
       )}
       onChange={(event, value) => onOptionSelected(value)}
     />
