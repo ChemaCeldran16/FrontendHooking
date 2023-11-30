@@ -2,17 +2,17 @@ import React, { useState } from 'react';
 import { Modal, Input, Rate } from 'antd';
 import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import { color } from 'framer-motion';
-
+import logo from '../static/img/TwitterLogo.png';
 const BarraComentario = () => {
   const [showModal, setShowModal] = useState(false);
   const [opinionInput1, setOpinionInput1] = useState('');
   const [opinionInput2, setOpinionInput2] = useState('');
   const [valoracion, setValoracion] = useState(0);
+  const nombreLocal = localStorage.getItem("nombreLocal")
   const [showLoginModal, setShowLoginModal] = useState(false); // Nuevo estado para el modal de inicio de sesión
+  const [showLoginModalTwitter, setShowLoginModalTwitter] = useState(false); // Nuevo estado para el modal de inicio de sesión
   const navigate = useNavigate();
   const user = useSelector((state) => state.user); // Obtén el estado del usuario guardado
-  const nombreLocal = useSelector(state => state.local.nombreLocal)
   
 
 
@@ -31,6 +31,9 @@ const BarraComentario = () => {
       alert('Por favor, completa todos los campos antes de enviar tu opinión.');
       return;
     }
+    console.log(nombreLocal)
+    let tweetText = opinionInput2 + "\nValoracion: " + valoracion.toString();
+    localStorage.setItem("tweetText", tweetText);
     const dataToSend = {
       local: nombreLocal,
       email: user.email,
@@ -49,13 +52,20 @@ const BarraComentario = () => {
       });
       if (response.ok) {
         console.log('Opinión enviada con éxito');
-        navigate("/carga");
+        // navigate("/carga");
       } else {
         console.log('Error al enviar la opinión');
       }
+      setShowLoginModalTwitter(true);
+
+
+
     } catch (error) {
       console.log('Error de la solicitud:', error);
     }
+
+
+
     setShowModal(false);
   };
 
@@ -76,6 +86,38 @@ const BarraComentario = () => {
   const handleLoginModalCancel = () => {
     setShowLoginModal(false);
   };
+  const handleLoginTwitterModalCancel = () => {
+    alert("Se almacenará la opinión pero no se publicará en Twitter")
+    
+    setShowLoginModal(false);
+    navigate("/carga")
+  };
+
+
+
+
+
+
+  const handleAutenticacionTwitter = async () => {
+    try {
+      const response = await fetch('http://127.0.0.1:8000/api/autenticacionTwitter');
+      const data = await response.json();
+      
+      // Verifica si la solicitud fue exitosa
+      if (!response.ok) {
+        throw new Error('Error al solicitar el token de solicitud al backend');
+      }
+      console.log(response)
+      // Extrae el token de solicitud del cuerpo de la respuesta
+      const url = data.url;
+      // console.log(requestToken);
+  
+      // Redirige al usuario a la página de autorización de Twitter
+      window.location.href = url;
+    } catch (error) {
+      console.error('Error obteniendo el token de solicitud: ', error);
+    }
+  };
 
   return (
     <div class="flex flex-row w-full justify-center pl-36 sm:pl-16 lg:pl-28 xl:pt-28 xl:pl-32 2xl:pl-52 2xl:pt-30">
@@ -83,7 +125,7 @@ const BarraComentario = () => {
 
       <Modal
         title="Opinión"
-        visible={showModal}
+        open={showModal}
         onOk={handleModalOk}
         onCancel={handleModalCancel}
         okText="Aceptar"
@@ -105,7 +147,7 @@ const BarraComentario = () => {
 
       <Modal
         title="Iniciar sesión"
-        visible={showLoginModal}
+        open={showLoginModal}
         onOk={handleLoginModalOk}
         onCancel={handleLoginModalCancel}
         okText="Aceptar"
@@ -115,6 +157,36 @@ const BarraComentario = () => {
       >
         <p>Por favor, inicia sesión para dejar tu opinión.</p>
       </Modal>
+
+      <Modal
+        title={
+          <div className='flex flex-row items-center justify-center pr-20 font-bold  text-xl'>
+            <img src={logo} alt="Twitter Logo" className='w-2/12 ' />
+            Publica tu opinión en Twitter
+          </div>
+        }
+        open={showLoginModalTwitter}
+        onOk={handleAutenticacionTwitter}
+        onCancel={handleLoginTwitterModalCancel}
+        okText="Aceptar"
+        cancelText="Cancelar"
+        okButtonProps={{type: 'default'}}
+        cancelButtonProps={{type: 'default', danger: 'true'}}
+      >
+
+        {/* <TweetForm></TweetForm> */}
+
+
+        {/* <div class='pt-4 pb-2'>
+          <Input value={correoTwitter} onChange={(e) => setCorreoTwitter(e.target.value)} placeholder="Correo" className='w-10/12'/>
+        </div>
+        <div>
+          <Input type='password' value={contrasenaTwitter} onChange={(e) => setContrasenaTwitter(e.target.value)} placeholder="Contrarseña" className='w-10/12'  />
+        </div> */}
+      </Modal>
+
+
+
     </div>
   );
 };

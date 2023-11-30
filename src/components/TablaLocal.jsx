@@ -22,16 +22,16 @@ const TablaLocal = ({ descripcion, menu, opiniones,horario }) => {
       // Verifica si la línea contiene asteriscos al principio y al final
       if (regex.test(line)) {
         return (
-          <>
+          <div>
             {line}
             <br />
-          </>
+          </div>
         )
       } else {
         return (
-          <>
+          <div>
             <strong>{line}</strong> <br />
-          </>
+          </div>
         )
       }
     })
@@ -45,7 +45,6 @@ const TablaLocal = ({ descripcion, menu, opiniones,horario }) => {
   
     const resultado = lineas.map((linea, index) => {
       const partes = linea.trim().split(': ');
-      console.log(partes+"!!!!!")
       if (partes.length === 2) {
         // Si hay dos puntos, formatea la parte antes de los dos puntos en negrita y la parte después sin negrita
         return (

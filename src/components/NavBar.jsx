@@ -12,6 +12,7 @@ export default function App({usuario}) {
     dispatch(logout())
     navigate('/')
   }
+  
 
   return (
     <>

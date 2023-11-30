@@ -15,6 +15,8 @@ import {
   cambioKilometros,
 } from '../redux/searchSlice'
 import { CarruselImagenes } from '../components/CarruselImagenes' // Ajusta la ruta de importación según tu estructura de archivos
+import { login } from '../redux/userSlice'
+
 
 const PaginaLocal = () => {
   const [imagenes, setImagenes] = useState([])
@@ -30,7 +32,8 @@ const PaginaLocal = () => {
   const [longitud, setLongitud] = useState('')
   const [decimalValue, setDecimalValue] = useState('')
   const backendBaseUrl = 'http://localhost:8000'
-  const nombreLocal = useSelector(state => state.local.nombreLocal)
+  let nombreLocal = useSelector(state => state.local.nombreLocal)
+  let user = useSelector(state => state.user)
   const navigate = useNavigate()
   const dispatch = useDispatch()
   const [posibilidadesLocales, setPosibilidadesLocales] = useState([])
@@ -39,9 +42,28 @@ const PaginaLocal = () => {
   const [selectedOptionNombre, setSelectedOptionNombre] = useState('')
   const [selectedOptionPoblacion, setselectedOptionPoblacion] = useState('')
   const [selectedOptionTipo, setSelectedOptionTipo] = useState('')
-  const user = useSelector(state => state.user)
   const [mostrarMapa, setMostrarMapa] = useState(false)
 
+  if (user && user.nombre && user.apellido && user.email) {
+    localStorage.setItem('user.nombre',user.nombre)
+    localStorage.setItem('user.apellido',user.apellido)
+    localStorage.setItem('user.email',user.email)
+  } else {
+    dispatch(
+      login({
+        nombre: localStorage.getItem('user.nombre'),
+        apellido: localStorage.getItem('user.apellido'),
+        email: localStorage.getItem('user.email'),
+      }),
+    )
+  }
+  if(!nombreLocal){
+    nombreLocal = localStorage.getItem('nombreLocal');
+  }else{
+    localStorage.removeItem('nombreLocal');
+    localStorage.setItem('nombreLocal', nombreLocal);
+  }
+  
   const obtenerLocal = async nombre => {
     const userData = {
       nombre,
@@ -86,7 +108,6 @@ const PaginaLocal = () => {
         setLatitud(latitud)
         setLongitud(longitud)
         setMostrarMapa(true)
-        console.log(data)
       } else {
         const errorData = await response.json()
         console.log(errorData)
@@ -324,7 +345,6 @@ const PaginaLocal = () => {
           </div>
         </div>
         <div className='flex flex-row w-full justify-center items-center  md:w-10/12 lg:hidden  '>
-          {console.log(imagenes)}
           <CarruselImagenes images={imagenes} />
         </div>
         <div className='flex w-full flex-row  justify-center items-center lg:space-x-32 md:space-x-8 md:justify-between md:w-9/12  '>
