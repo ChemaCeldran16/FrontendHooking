@@ -9,6 +9,9 @@ export default function App({usuario}) {
   const navigate = useNavigate()
   const handleCerrarSesion = () => {
     // Lógica para cerrar sesión (ejemplo usando una acción de Redux)
+    localStorage.setItem('user.nombre',"")
+    localStorage.setItem('user.apellido',"")
+    localStorage.setItem('user.email',"")
     dispatch(logout())
     navigate('/')
   }

@@ -5,6 +5,9 @@ const initialState = {
   local: "",
   poblacion: "",
   kilometros: "",
+  latitud: null,
+  longitud: null,
+  radio: null,
 };
 
 export const searchSlice = createSlice({
@@ -23,6 +26,15 @@ export const searchSlice = createSlice({
     cambioKilometros: (state, action) => {
       state.kilometros = action.payload;
     },
+    cambioLatitud: (state, action) => {
+      state.latitud = action.payload;
+    },
+    cambioLongitud: (state, action) => {
+      state.longitud = action.payload;
+    },
+    cambioRadio: (state, action) => {
+      state.radio = action.payload;
+    },
   },
 });
 
@@ -31,6 +43,9 @@ export const {
   cambioTipo,
   cambioPoblacion,
   cambioKilometros,
+  cambioLatitud,
+  cambioLongitud,
+  cambioRadio,
 } = searchSlice.actions;
 
 export default searchSlice.reducer;

@@ -1,27 +1,23 @@
-import React, {useRef} from 'react'
+import React from 'react'
 import NavBar from '../components/NavBar'
-import TarjetaRecomendacion from '../components/TarjetaRecomendacion'
-import { useEffect, useState } from 'react'
+import { useState, useEffect } from 'react'
 import AutocompletarOpcionesPrincipal from '../components/AutocompletarOpcionesPrincipal'
 import DecimalInput from '../components/InputDecimal'
-import { useDispatch } from 'react-redux'
-import { useNavigate } from 'react-router-dom'
+import Mapa from '../components/Mapa'
+import ListaLugares from '../components/ListaLugares'
+import { Pagination } from 'antd'
+import Spinner from '../components/Spinner'
 import { useSelector } from 'react-redux'
-import { cambioNombre } from '../redux/localSlice'
+import { useDispatch } from 'react-redux'
 import {
   cambioTipo,
   cambioPoblacion,
   cambioKilometros,
-  cambioLongitud,
-  cambioLatitud,
-  cambioRadio,
-  
 } from '../redux/searchSlice'
-import {Modal} from 'antd'
-import MapaArea from '../components/MapaArea'
+import { cambioNombre } from '../redux/localSlice'
+import { useNavigate } from 'react-router-dom'
 
-export default function PaginaPrincipal() {
-  const [localData, setLocalData] = useState(null)
+const PaginaBusquedaMapaDibujado = () => {
   const [posibilidadesLocales, setposibilidadesLocales] = useState([])
   const [posibilidadesDonde, setPosibilidadesDonde] = useState([])
   const [posibilidadesTipo, setPosibilidadesTipo] = useState([])
@@ -29,42 +25,50 @@ export default function PaginaPrincipal() {
   const [selectedOptionPoblacion, setselectedOptionPoblacion] = useState('') //Pueblo
   const [selectedOptionTipo, setSelectedOptionTipo] = useState('') //Pueblo
   const [decimalValue, setDecimalValue] = useState('') // Agregamos el estado para el valor decimal
+  const [locales, setLocales] = useState([])
+  const [currentPage, setCurrentPage] = useState(1)
+  const [isLoading, setIsLoading] = useState(true)
   const user = useSelector(state => state.user)
-  const navigate = useNavigate()
   const dispatch = useDispatch()
-  const [show, setShow] = useState(false);
+  const navigate = useNavigate()
 
-  const [executeAccept, setExecuteAccept] = useState(false);
-  const [executeCancel, setExecuteCancel] = useState(false);
-  const [centro, setCentro] = useState(null);
-  const [radio, setRadio] = useState(null);
+  const itemsPerPage = 3
+  const radio = useSelector(state => state.busqueda.radio)
+  const latitud = useSelector(state => state.busqueda.latitud)
+  const longitud = useSelector(state => state.busqueda.longitud)
 
-
-  const handleBuscarLocal = () => {
-    fetch('http://127.0.0.1:8000/api/localRecomendacion')
-      .then(response => {
-        if (response.ok) {
-          return response.json()
-        } else {
-          throw new Error('Error en la respuesta del servidor')
-        }
-      })
-      .then(responseData => {
-        const updatedLocalData = responseData.map(item => {
-          const imagen = item.imagen ? item.imagen : null
-          return {
-            nombre: item.nombreLocal,
-            valoracion: item.valoracion,
-            imagen: imagen,
-          }
-        })
-        setLocalData(updatedLocalData)
-      })
-      .catch(error => {
-        console.error('Error al realizar la petición:', error)
-      })
+  const obtenerObjetosLocales = async (radio, longitud, latitud) => {
+    const data = {
+      longitud: longitud,
+      latitud: latitud,
+      radio: radio,
+    };
+    try {
+      const response = await fetch('http://localhost:8000/api/mapaDibujo', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(data),
+      });
+  
+      if (response.ok) {
+        const datos = await response.json()
+        // Aquí puedes hacer algo con los datos recibidos, por ejemplo, almacenarlos en el estado local del componente
+        setLocales(datos)
+        if(datos.length==0){
+          navigate("/cargalocal0")
+        }      } else {
+        console.error('Error en la respuesta del servidor:', response.statusText);
+      }
+    } catch (error) {
+      console.error('Error al realizar la petición:', error);
+    } finally {
+        // Actualiza isLoading a false después de obtener los datos o en caso de error
+        setIsLoading(false)
+      }
+      
   }
-
   const cargarLugares = async () => {
     fetch(`http://localhost:8000/api/opcionesLocales`)
       .then(response => {
@@ -161,14 +165,8 @@ export default function PaginaPrincipal() {
       setSelectedOptionTipo(null)
     }
   }
-
-  const handleRecomendacion = titulo => {
-    // Function to handle the recommendation click
-    dispatch(cambioNombre(titulo))
-
-    navigate('/local')
-
-    // Add your logic here
+  const handleDecimalChange = value => {
+    setDecimalValue(value) // Actualizamos el estado con el valor del DecimalInput
   }
 
   const handleBotonbuscar = async e => {
@@ -192,91 +190,43 @@ export default function PaginaPrincipal() {
         dispatch(cambioPoblacion(selectedOptionPoblacion))
         dispatch(cambioKilometros(decimalValue))
         // Navegar a "/search"
-        navigate('/search')
+        navigate('/cargaBusqueda')
       }
     }
   }
-  const handleDecimalChange = value => {
-    setDecimalValue(value) // Actualizamos el estado con el valor del DecimalInput
+  const handleLocal = titulo => {
+    // Function to handle the recommendation click
+    dispatch(cambioNombre(titulo))
+    console.log(titulo)
+    navigate('/local')
+
+    // Add your logic here
   }
-  const handleClickMapaInteractivo = () => {
-    setShow(true);
-};
-
-const handleAcceptMapaInteractivo  = async (centro,radio) => {
-  setCentro(centro);
-  setRadio(radio);
-  if (centro && radio) {
-    const [longitud, latitud] = centro;
-
-    dispatch(cambioRadio(radio));
-    dispatch(cambioLongitud(longitud))
-    dispatch(cambioLatitud(latitud))
-    navigate("/busquedaMapaDibujado")
-    // const [longitud, latitud] = centro;
-    // const data = {
-    //   longitud: longitud,
-    //   latitud: latitud,
-    //   radio: radio,
-    // };
-    // try {
-    //   const response = await fetch('http://localhost:8000/api/mapaDibujo', {
-    //     method: 'POST',
-    //     headers: {
-    //       'Content-Type': 'application/json',
-    //     },
-    //     body: JSON.stringify(data),
-    //   });
   
-    //   if (response.ok) {
-    //     console.log('Datos enviados exitosamente al servidor');
-    //   } else {
-    //     console.error('Error en la respuesta del servidor:', response.statusText);
-    //   }
-    // } catch (error) {
-    //   console.error('Error al realizar la petición:', error);
-    // }
 
-
-
-  } else {
-    alert('No se ha dibujado ninguna área');
-  }
-  setExecuteAccept(false);
-  setShow(false);
-};
-
-const handleCancelMapaInteractivo = () => {
-  // Cerrar el modal al cancelar
-  setShow(false);
-  setExecuteCancel(false);
-
-  // navigate("/cargaPrincipal")
-};
-
-const handleExecuteAccept = () => {
-  setExecuteAccept(true);
-};
-
-const handleExecuteCancel = () => {
-  setExecuteCancel(true);
-};
 
   useEffect(() => {
-    handleBuscarLocal()
+    // Lógica a ejecutar al cargar la página
+    setIsLoading(true)
     cargarLugares()
     cargarPueblos()
     cargarTipos()
-  }, [])
+    obtenerObjetosLocales(radio, longitud, latitud)
+  }, [radio, longitud, latitud])
+
+  const handlePageChange = page => {
+    setCurrentPage(page)
+  }
 
   return (
     <>
       <NavBar usuario={user} />
-      <div className='h-full w-screen bg-fondo bg-opacity-0  bg-cover bg-center flex justify-center items-start  sm:pt-20 md:pt-24 md:h-screen 2xl:bg-right'>
-        <div className='flex flex-col   bg-tranparent h-full sm:items-center   md:w-4/4 md:items-start  lg:w-full lg:items-center'>
-          <div className='sm:w-10/12 md:w-full   lg:pl-24  xl:pl-40 2xl:pl-56'>
-            <div className='bg-azul-oscuro bg-opacity-80 px-8 py-6 rounded-lg shadow-md  sm:w-4/4 md:w-3/5 md:pr  lg:w-2/5 xl:w-5/5 2xl:w-4/12'>
-              <h4 className=' text-large pb-4 font-luckiestGuy md:text-xl 2xl:text-2xl text-orange-400'>
+      <div className='h-full w-screen flex   bg-fondo bg-cover bg-center  pt-16  sm:flex-col sm:items-center md:flex-row lg:pt-8 xl:pt-8'>
+        <div className='flex  w-1/2 sm:w-full lg:pl-16'>
+          <div className='w-1/12 hidden 2xl:block '></div>
+          <div className=' flex flex-col    w-2/3  items-center space-y-8 pt-8 sm:w-full md:pt-16  lg:w-10/12  2xl:w-9/12'>
+            <div className='flex-row bg-azul-oscuro bg-opacity-70 px-8 py-6 rounded-lg shadow-md w-8/12 sm:w-10/12 '>
+              <h4 className='text-large pb-4 font-luckiestGuy md:text-xl 2xl:text-2xl text-orange-400'>
                 Descubre tu lugar
               </h4>
               <AutocompletarOpcionesPrincipal
@@ -305,60 +255,56 @@ const handleExecuteCancel = () => {
                 ></DecimalInput>
               </div>
               <button
-                className='block w-full md:px-4 py-2 bg-azul-claro text-black font-acme text-xl rounded-lg hover:bg-blue-500 sm:w-8/12 sm:mx-auto  '
+                className='block w-full px-4 py-2 bg-azul-claro text-black font-acme text-xl rounded-lg hover:bg-blue-500 lg:w-8/12 lg:mx-auto'
                 onClick={handleBotonbuscar}
               >
                 Buscar
               </button>
-            <div className='flex justify-center '> 
-              <button className=' w-8/12 bg-blue-600 rounded-lg mt-4 text-lg py-2 ' onClick={handleClickMapaInteractivo}>
-                Mapa interactivo
-              </button>
-              <Modal
-              title="Mapa Interactivo"
-              open={show}
-              onOk={handleExecuteAccept}
-              onCancel={handleExecuteCancel}
-              okText="Aceptar"
-              cancelText="Cancelar"
-              okButtonProps={{type: 'default'}}
-              cancelButtonProps={{type: 'default', danger: 'true'}}
-            >
-              <MapaArea onAccept={handleAcceptMapaInteractivo} onCancel={handleCancelMapaInteractivo} executeAccept={executeAccept} executeCancel={executeCancel} />
-            </Modal>
             </div>
+            <div className='md:hidden pb-2'>
+              <label className='font-bold text-large '>
+                Resultados de tu búsqueda
+              </label>
+            </div>
+            <div className='pb-12 w-4/5 h-auto hidden md:block'>
+              {locales && <Mapa coordenadas={locales} />}
             </div>
           </div>
-
-          <div
-            id='recomendacion'
-            className='flex flex-col bg-transparent pt-16 w-full md:pt-24 lg:w-9/12 lg:pt-8'
-          >
-            <h4 className=' text-large text-orange-400 sm:pl-12 md:text-xl md:pb-4 font-luckiestGuy 2xl:pl-24 2xl:text-2xl'>
-              Nuestras recomendaciones
-            </h4>
-            <div
-              id='localesRecomendacion'
-              className='flex flex-row py-4 sm:flex-wrap sm:justify-center sm:space-x-2 md:justify-between xl:flex-nowrap 2xl:justify-center 2xl:space-x-32 '
-            >           
-              {localData &&
-                localData.map((local, index) => (
-                  <div
-                    key={index}
-                    className='mb-4'
-                    onClick={() => handleRecomendacion(local.nombre)}
-                  >
-                    <TarjetaRecomendacion
-                      nombre={local.nombre}
-                      valoracion={local.valoracion}
-                      imagen={local.imagen}
+        </div>
+        <div className='flex  w-1/2 sm:w-10/12 md:w-11/12 md:pr-4 lg:pr-12 xl:pt-12'>
+          <div className=' w-2/3 sm:w-full '>
+            {isLoading ? (
+              // Muestra un estado de carga mientras isLoading es true
+              <div className=' flex w-full h-full justify-center items-center '>
+                <Spinner />
+              </div>
+            ) : (
+              // Muestra la lista de lugares cuando isLoading es false
+              <div>
+                <ListaLugares
+                  locales={locales}
+                  currentPage={currentPage}
+                  itemsPerPage={itemsPerPage}
+                  onClick={handleLocal}
+                />
+                {locales.length > itemsPerPage && (
+                  <div className='flex justify-center'>
+                    <Pagination
+                      className='sm:text-md xl:text-lg bg-blanco-gris rounded-2xl bg-opacity-40 '
+                      current={currentPage}
+                      pageSize={itemsPerPage}
+                      total={locales.length}
+                      onChange={handlePageChange}
                     />
                   </div>
-                ))}
-            </div>
+                )}
+              </div>
+            )}
           </div>
         </div>
       </div>
     </>
   )
 }
+
+export default PaginaBusquedaMapaDibujado
