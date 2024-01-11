@@ -16,15 +16,31 @@ const Mapa = ({ coordenadas, altura }) => {
 
   useEffect(() => {
     if (coordenadas.length > 0) {
-      const centerCoordinates = [
-        parseFloat(coordenadas[0].longitud),
-        parseFloat(coordenadas[0].latitud),
+      
+      let centerCoordinates = [
+        0,0,
       ];
-
-      const view = new View({
+      let view = new View({
         center: fromLonLat(centerCoordinates),
         zoom: 15,
       });
+      if(coordenadas.length==1){
+        centerCoordinates = [
+          parseFloat(coordenadas[0].longitud),
+          parseFloat(coordenadas[0].latitud),
+        ];
+      }else{
+        centerCoordinates = [
+          parseFloat(-1.1307),
+          parseFloat(38.0049),
+        ];
+              view = new View({
+                center: fromLonLat(centerCoordinates),
+                zoom: 8,
+              });
+
+      }
+
 
       const map = new Map({
         target: mapContainerRef.current,
@@ -63,7 +79,7 @@ const Mapa = ({ coordenadas, altura }) => {
     }
   }, [coordenadas]);
 
-  return <div ref={mapContainerRef}  style={{ height: altura || '400px' }} />; 
+  return <div ref={mapContainerRef}  style={{ height: altura || '350px' }} />; 
   
 };
 

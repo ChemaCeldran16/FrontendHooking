@@ -59,7 +59,7 @@ export default function PaginaPrincipal() {
     }, [password, confirmPassword]);
 
     return (
-        <div className="flex w-screen h-full justify-center 2xl:pt-16 md:pt-8 sm:pt-4  pb-12 bg-black lg:pt-0">
+        <div className="flex w-screen h-full md:h-[1100px] justify-center 2xl:pt-16 md:pt-8 sm:pt-4  pb-12 bg-black lg:pt-0">
             <div className="xl:p-12 md:p-8 rounded-lg sm:p-4 sm:px-8 ">
                 <div className="flex-col content-center bg-gray-800  w-full xl:h-full rounded-lg xl:p-8 md:p-8 sm:p-4 ">
                     <MarcaRegistroLogin />

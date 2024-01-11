@@ -30,7 +30,6 @@ const TablaComentario = ({ comentario }) => {
           const nombre = usuario.nombre;
           const apellido = usuario.apellido;
           setNombreUsuario(nombre + " " +apellido);
-          console.log('Opinión enviada con éxito');
         } else {
           console.log('Error al enviar la opinión');
         }

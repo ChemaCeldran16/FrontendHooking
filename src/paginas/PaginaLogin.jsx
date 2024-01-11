@@ -64,7 +64,7 @@ export default function PaginaPrincipal() {
   useEffect(() => {}, [])
 
   return (
-    <div className="flex md:h-screen 2xl:w-full 2xl:h-screen justify-center 2xl:pt-16 md:pt-8 sm:pt-4  pb-12 ">
+    <div className="flex md:h-screen 2xl:w-full 2xl:h-screen justify-center 2xl:pt-16 md:pt-8 sm:pt-4  pb-12  sm:h-[900px] md:h-[1100px]">
     <div className="xl:p-12 md:p-8 rounded-lg sm:p-4 sm:px-8 ">
         <div className="flex-col content-center bg-gray-800  w-full  rounded-lg xl:p-8 md:p-8 sm:p-4 ">
         <MarcaRegistroLogin />

@@ -9,17 +9,21 @@ export default function App({usuario}) {
   const navigate = useNavigate()
   const handleCerrarSesion = () => {
     // Lógica para cerrar sesión (ejemplo usando una acción de Redux)
+    localStorage.setItem('user.nombre',"")
+    localStorage.setItem('user.apellido',"")
+    localStorage.setItem('user.email',"")
     dispatch(logout())
     navigate('/')
   }
+  
 
   return (
     <>
-      <div className="flex bg-gray-900 w-full fixed justify-between z-50 items-center h-16 sm:p-2">
-        <div className="lg:pl-4 xl:pl-8">
+      <div className="flex bg-gray-900 w-full fixed justify-between z-50 items-center h-16 sm:pr-4  md:pl-4   xl:pr-24 2xl:pr-0">
+        <div className=" lg:pl-4 xl:pl-8">
         <Marca></Marca> 
         </div>
-        <div className="space-x-5 lg:pr-4 xl:pr-8">
+        <div className="space-x-5 lg:space-x-12 lg:pr-20  xl:pr-8">
         {!usuario || usuario.nombre === '' ? (
           <>
               <Link href='/RegisterPage' className="text-md md:font-bold lg:text-lg xl:text-xl">
@@ -30,7 +34,7 @@ export default function App({usuario}) {
                 color='primary'
                 href='/LoginPage'
                 variant='flat'
-                className="sm:text-sm  sm:w-[6rem] sm:h-[2rem] md:text-md md:w-[8rem] md:h-[2.5rem] md:font-bold lg:text-lg lg:w-[10rem] lg:h-[3rem] 
+                className="sm:text-sm  sm:w-[6rem] sm:h-[2rem] md:text-md md:w-[8rem] md:h-[2.5rem] md:font-bold lg:text-lg lg:h-[3rem] 
                 xl:text-xl lg:w-[11rem] lg:h-[3rem]"
               >
                 Iniciar Sesión
@@ -43,7 +47,7 @@ export default function App({usuario}) {
               Hola, {usuario.nombre}
             </div>
               <Button color='danger'
-              className="sm:text-sm  sm:w-[6rem] sm:h-[1.7rem] md:text-md md:w-[8rem] md:h-[2.5rem] md:font-bold lg:text-lg lg:w-[10rem]  
+              className="sm:text-sm  sm:w-[6rem] sm:h-[1.7rem] md:text-md md:w-[8rem] md:h-[2.5rem] md:font-bold lg:text-lg 
               xl:text-xl xl:w-[11rem] "
               onClick={handleCerrarSesion}>                
                 Cerrar sesión

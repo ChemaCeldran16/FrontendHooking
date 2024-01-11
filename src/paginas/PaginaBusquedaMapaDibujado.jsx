@@ -17,7 +17,7 @@ import {
 import { cambioNombre } from '../redux/localSlice'
 import { useNavigate } from 'react-router-dom'
 
-const PaginaBusqueda = () => {
+const PaginaBusquedaMapaDibujado = () => {
   const [posibilidadesLocales, setposibilidadesLocales] = useState([])
   const [posibilidadesDonde, setPosibilidadesDonde] = useState([])
   const [posibilidadesTipo, setPosibilidadesTipo] = useState([])
@@ -33,48 +33,41 @@ const PaginaBusqueda = () => {
   const navigate = useNavigate()
 
   const itemsPerPage = 3
-  const nombrePueblo = useSelector(state => state.busqueda.poblacion)
-  const tipoLocal = useSelector(state => state.busqueda.tipoLugar)
-  const radioKMS = useSelector(state => state.busqueda.kilometros)
-  const latitud = useSelector(state => state.localizacion.latitud)
-  const longitud = useSelector(state => state.localizacion.longitud)
-  
+  const radio = useSelector(state => state.busqueda.radio)
+  const latitud = useSelector(state => state.busqueda.latitud)
+  const longitud = useSelector(state => state.busqueda.longitud)
 
-
-
-  const obtenerObjetosLocales = async (nombrePueblo, tipoLocal, radioKMS,latitud,longitud) => {
+  const obtenerObjetosLocales = async (radio, longitud, latitud) => {
+    const data = {
+      longitud: longitud,
+      latitud: latitud,
+      radio: radio,
+    };
     try {
-      const userData = {
-        nombrePueblo,
-        tipoLocal,
-        radioKMS,
-        latitud,
-        longitud,
-      }
-      const respuesta = await fetch('http://127.0.0.1:8000/api/searchlocal', {
+      const response = await fetch('http://localhost:8000/api/mapaDibujo', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify(userData),
-      })
-
-      if (respuesta.ok) {
-        const datos = await respuesta.json()
+        body: JSON.stringify(data),
+      });
+  
+      if (response.ok) {
+        const datos = await response.json()
         // Aquí puedes hacer algo con los datos recibidos, por ejemplo, almacenarlos en el estado local del componente
         setLocales(datos)
         if(datos.length==0){
           navigate("/cargalocal0")
-        }
-      } else {
-        throw new Error('Error al obtener los objetos locales')
+        }      } else {
+        console.error('Error en la respuesta del servidor:', response.statusText);
       }
     } catch (error) {
-      console.error(error)
+      console.error('Error al realizar la petición:', error);
     } finally {
-      // Actualiza isLoading a false después de obtener los datos o en caso de error
-      setIsLoading(false)
-    }
+        // Actualiza isLoading a false después de obtener los datos o en caso de error
+        setIsLoading(false)
+      }
+      
   }
   const cargarLugares = async () => {
     fetch(`http://localhost:8000/api/opcionesLocales`)
@@ -218,8 +211,8 @@ const PaginaBusqueda = () => {
     cargarLugares()
     cargarPueblos()
     cargarTipos()
-    obtenerObjetosLocales(nombrePueblo, tipoLocal, radioKMS,latitud,longitud)
-  }, [nombrePueblo, tipoLocal, radioKMS,latitud,longitud])
+    obtenerObjetosLocales(radio, longitud, latitud)
+  }, [radio, longitud, latitud])
 
   const handlePageChange = page => {
     setCurrentPage(page)
@@ -227,96 +220,96 @@ const PaginaBusqueda = () => {
 
   return (
     <>
-      <NavBar usuario={user} />
-      <div className='h-full w-screen flex   bg-fondo bg-cover bg-center  pt-16  sm:flex-col sm:items-center 
-                      md:flex-row md:pr-2 md:pt-0 md:h-[1050px] lg:pt-8 xl:pt-8 xl:pr-20'>
-        <div className='flex  w-1/2 sm:w-full lg:pl-16'>
-          {/* <div className='w-1/12 hidden 2xl:block '></div> */}
-          <div className=' flex flex-col    w-2/3  items-center space-y-8 pt-8 sm:w-full sm:mr-8  md:pt-0  lg:w-10/12  2xl:w-9/12'>
-            <div className='flex-row bg-azul-oscuro bg-opacity-70 px-8 py-6 rounded-lg shadow-md w-8/12 sm:w-10/12  '>
-              <h4 className='text-large pb-4 font-luckiestGuy md:text-xl 2xl:text-2xl text-orange-400'>
-                Descubre tu lugar
-              </h4>
-              <AutocompletarOpcionesPrincipal
-                options={posibilidadesLocales}
-                onOptionSelected={option =>
-                  handleOptionSelected(option, 'opcionesLocales')
-                }
-                labelText='Local'
-              />
-              <AutocompletarOpcionesPrincipal
-                options={posibilidadesTipo}
-                onOptionSelected={handleOptionSelectedTipo}
-                labelText='Tipo'
-              />
-              <AutocompletarOpcionesPrincipal
-                options={posibilidadesDonde}
-                onOptionSelected={option =>
-                  handleOptionSelected(option, 'opcionesDonde')
-                }
-                labelText='Lugar'
-              />
-              <div className='h-16 pb-4'>
-                <DecimalInput
-                  onChange={handleDecimalChange}
-                  labelText={'Kms'}
-                ></DecimalInput>
-              </div>
-              <button
-                className='block w-full px-4 py-2 bg-azul-claro text-black font-acme text-xl rounded-lg hover:bg-blue-500 lg:w-8/12 lg:mx-auto'
-                onClick={handleBotonbuscar}
-              >
-                Buscar
-              </button>
+    <NavBar usuario={user} />
+    <div className='h-full w-screen flex   bg-fondo bg-cover bg-center  pt-16  sm:flex-col sm:items-center 
+                    md:flex-row md:pr-2 md:pt-0 md:h-[1050px] lg:pt-8 xl:pt-8 xl:pr-20'>
+      <div className='flex  w-1/2 sm:w-full lg:pl-16'>
+        {/* <div className='w-1/12 hidden 2xl:block '></div> */}
+        <div className=' flex flex-col    w-2/3  items-center space-y-8 pt-8 sm:w-full sm:mr-8  md:pt-0  lg:w-10/12  2xl:w-9/12'>
+          <div className='flex-row bg-azul-oscuro bg-opacity-70 px-8 py-6 rounded-lg shadow-md w-8/12 sm:w-10/12  '>
+            <h4 className='text-large pb-4 font-luckiestGuy md:text-xl 2xl:text-2xl text-orange-400'>
+              Descubre tu lugar
+            </h4>
+            <AutocompletarOpcionesPrincipal
+              options={posibilidadesLocales}
+              onOptionSelected={option =>
+                handleOptionSelected(option, 'opcionesLocales')
+              }
+              labelText='Local'
+            />
+            <AutocompletarOpcionesPrincipal
+              options={posibilidadesTipo}
+              onOptionSelected={handleOptionSelectedTipo}
+              labelText='Tipo'
+            />
+            <AutocompletarOpcionesPrincipal
+              options={posibilidadesDonde}
+              onOptionSelected={option =>
+                handleOptionSelected(option, 'opcionesDonde')
+              }
+              labelText='Lugar'
+            />
+            <div className='h-16 pb-4'>
+              <DecimalInput
+                onChange={handleDecimalChange}
+                labelText={'Kms'}
+              ></DecimalInput>
             </div>
-            <div className='md:hidden pb-2'>
-              <label className='font-bold text-large '>
-                Resultados de tu búsqueda
-              </label>
-            </div>
-            <div className='pb-12 w-4/5 md:pt-8 h-auto hidden md:block'>
-              {locales && <Mapa coordenadas={locales} />}
-            </div>
+            <button
+              className='block w-full px-4 py-2 bg-azul-claro text-black font-acme text-xl rounded-lg hover:bg-blue-500 lg:w-8/12 lg:mx-auto'
+              onClick={handleBotonbuscar}
+            >
+              Buscar
+            </button>
+          </div>
+          <div className='md:hidden pb-2'>
+            <label className='font-bold text-large '>
+              Resultados de tu búsqueda
+            </label>
+          </div>
+          <div className='pb-12 w-4/5 md:pt-8 h-auto hidden md:block'>
+            {locales && <Mapa coordenadas={locales} />}
           </div>
         </div>
-        <div className='flex  w-1/2 sm:w-10/12 md:w-11/12 md:pr-4 lg:pr-12 xl:pt-12'>
-          <div className=' w-2/3 sm:w-full sm:mr-8'>
-            {isLoading ? (
-              // Muestra un estado de carga mientras isLoading es true
-              <div className=' flex w-full h-full justify-center items-center '>
-                <Spinner />
-              </div>
-            ) : (
-              // Muestra la lista de lugares cuando isLoading es false
-              <div>
-                <ListaLugares
-                  locales={locales}
-                  currentPage={currentPage}
-                  itemsPerPage={itemsPerPage}
-                  onClick={handleLocal}
-                />
-                {locales.length > itemsPerPage && (
-                  <div className='flex justify-center'>
-                    <Pagination
-                      className='sm:text-md  xl:text-lg bg-blanco-gris rounded-2xl bg-opacity-40  '
-                      showLessItems={true}
-                      current={currentPage}
-                      pageSize={itemsPerPage}
-                      total={locales.length}
-                      onChange={handlePageChange}
-                    />
-                  </div>
-                )}
-              </div>
-            )}
-          </div>
-        </div>
-          <div className='pt-6 pb-4 pr-4 w-3/4 h-auto  md:hidden'>
-              {locales && <Mapa coordenadas={locales} />}
-            </div>
       </div>
-    </>
+      <div className='flex  w-1/2 sm:w-10/12 md:w-11/12 md:pr-4 lg:pr-12 xl:pt-12'>
+        <div className=' w-2/3 sm:w-full sm:mr-8'>
+          {isLoading ? (
+            // Muestra un estado de carga mientras isLoading es true
+            <div className=' flex w-full h-full justify-center items-center '>
+              <Spinner />
+            </div>
+          ) : (
+            // Muestra la lista de lugares cuando isLoading es false
+            <div>
+              <ListaLugares
+                locales={locales}
+                currentPage={currentPage}
+                itemsPerPage={itemsPerPage}
+                onClick={handleLocal}
+              />
+              {locales.length > itemsPerPage && (
+                <div className='flex justify-center'>
+                  <Pagination
+                    className='sm:text-md  xl:text-lg bg-blanco-gris rounded-2xl bg-opacity-40  '
+                    showLessItems={true}
+                    current={currentPage}
+                    pageSize={itemsPerPage}
+                    total={locales.length}
+                    onChange={handlePageChange}
+                  />
+                </div>
+              )}
+            </div>
+          )}
+        </div>
+      </div>
+        <div className='pt-6 pb-4 pr-4 w-3/4 h-auto  md:hidden'>
+            {locales && <Mapa coordenadas={locales} />}
+          </div>
+    </div>
+  </>
   )
 }
 
-export default PaginaBusqueda
+export default PaginaBusquedaMapaDibujado
