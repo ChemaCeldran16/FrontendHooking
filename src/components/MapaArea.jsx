@@ -50,16 +50,16 @@ const MapaArea = ({ onCancel, onAccept, executeAccept,executeCancel }) => {
               source: sourceRef.current,
               style: new Style({
                   fill: new Fill({
-                      color: 'rgba(255, 255, 255, 0.2)',
+                      color: 'rgba(0, 0, 0, 0.2)',
                   }),
                   stroke: new Stroke({
-                      color: '#ffcc33',
+                      color: '#FF6200',
                       width: 2,
                   }),
                   image: new CircleStyle({
                       radius: 7,
                       fill: new Fill({
-                          color: '#ffcc33',
+                          color: '#FF6200',
                       }),
                   }),
               }),
@@ -93,14 +93,7 @@ const MapaArea = ({ onCancel, onAccept, executeAccept,executeCancel }) => {
   const centro = circleGeometry.getCenter();
   const centroEnGrados = toLonLat(centro, 'EPSG:3857');
 
-  console.log('Área del círculo añadido:', radius , "      |||||||",centro);
 
-  console.log("El área es sdcascsdcasdc:" ,area)
-
-  console.log("LA figura extraña es ",circleGeometry)
-
-
-  console.log('Centro en grados:', centroEnGrados);
 
   // Puedes pasar el área a la función onAccept si es necesario
   onAccept(centroEnGrados,radius);

@@ -44,7 +44,7 @@ export default {
       'md': '750px',
       // => @media (min-width: 768px) { ... }
 
-      'lg': '1025px',
+      'lg': '1020px',
       // => @media (min-width: 1024px) { ... }
 
       'xl': '1280px',

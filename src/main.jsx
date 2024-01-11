@@ -6,7 +6,7 @@ import './index.css'
 
 ReactDOM.createRoot(document.getElementById('root')).render(
     <NextUIProvider>
-    <div className='w-screen h-full dark text-foreground bg-black flex  justify-center'>
+    <div className='w-screen sm:h-full dark text-foreground bg-black flex  justify-center  '>
       <App />
     </div>
     </NextUIProvider>

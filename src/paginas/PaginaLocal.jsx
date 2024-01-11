@@ -252,7 +252,8 @@ const PaginaLocal = () => {
   return (
     <>
       <NavBar usuario={user} />
-      <div className='flex flex-col h-full w-full space-y-8 bg-fondo bg-cover md:items-center md:space-y-2 lg:w-screen lg:space-y-0'>
+      <div className='flex flex-col h-full w-full space-y-8 bg-fondo bg-cover sm:pr-4 md:items-center md:space-y-2
+                      lg:w-screen lg:space-y-0 lg:pr-4 xl:pr-20'>
         <div className='hidden md:block w-10/12 '>
           <h4 className='  text-large  pl-4 pt-24 pb-2 hidden lg:block lg:text-2xl 2xl:pl-24 font-luckiestGuy 2xl:text-2xl text-orange-400 '>
             Descubre tu lugar
@@ -323,7 +324,7 @@ const PaginaLocal = () => {
         </div>
         <div className='flex flex-row flex-wrap justify-center items-center sm:hidden lg:flex lg:block '>
           {imagenes.map((imagen, index) => (
-            <div className='w-80 h-56 m-4 xl:w-96 xl:h-64 2xl:w-[450px] 2xl:h-[250px]' key={index}>
+            <div className='w-80 h-56 m-4 lg:w-64 xl:w-96 xl:h-64 2xl:w-[450px] 2xl:h-[250px]' key={index}>
               <img
                 src={imagen}
                 alt='Foto del local'
@@ -347,8 +348,8 @@ const PaginaLocal = () => {
         <div className='flex flex-row w-full justify-center items-center  md:w-10/12 lg:hidden  '>
           <CarruselImagenes images={imagenes} />
         </div>
-        <div className='flex w-full flex-row  justify-center items-center lg:space-x-32 md:space-x-8 md:justify-between md:w-9/12  '>
-          <div className='w-10/12 content-end rounded-xl h-full sm:h-auto pb-32 md:w-1/2 md:pt-16 lg:w-10/12 xl:w-6/12 2xl:pt-0 '>
+        <div className='flex w-full  justify-center items-center lg:space-x-16 md:space-x-8 md:justify-between md:w-9/12 sm:flex-col md:flex-row '>
+          <div className='w-10/12 content-end rounded-xl h-full sm:h-auto pb-32 sm:pb-8 md:w-1/2 md:pt-6 lg:w-10/12 xl:w-6/12 2xl:pt-0 '>
             <TablaLocal
               descripcion={descripcion}
               menu={menu}
@@ -356,8 +357,8 @@ const PaginaLocal = () => {
               horario={horario}
             />
           </div>
-          <div className=' flex flex-col pb-12 w-1/4 hidden md:block md:w-9/12 xl:w-6/12 xl:pb-36 2xl:pt-16'>
-            <div className='hidden md:block 2xl:hidden'>
+          <div className=' flex flex-col pb-12 sm:w-3/4 sm:pt-2 md:block md:w-9/12 md:pt-12  xl:w-6/12 xl:pb-36 2xl:pt-16'>
+            <div className=' md:block  2xl:hidden'>
               {mostrarMapa && (
                 <Mapa coordenadas={[{ latitud, longitud }]} altura='320px' />
               )}

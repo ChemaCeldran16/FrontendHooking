@@ -36,13 +36,20 @@ const PaginaBusqueda = () => {
   const nombrePueblo = useSelector(state => state.busqueda.poblacion)
   const tipoLocal = useSelector(state => state.busqueda.tipoLugar)
   const radioKMS = useSelector(state => state.busqueda.kilometros)
+  const latitud = useSelector(state => state.localizacion.latitud)
+  const longitud = useSelector(state => state.localizacion.longitud)
+  
 
-  const obtenerObjetosLocales = async (nombrePueblo, tipoLocal, radioKMS) => {
+
+
+  const obtenerObjetosLocales = async (nombrePueblo, tipoLocal, radioKMS,latitud,longitud) => {
     try {
       const userData = {
         nombrePueblo,
         tipoLocal,
         radioKMS,
+        latitud,
+        longitud,
       }
       const respuesta = await fetch('http://127.0.0.1:8000/api/searchlocal', {
         method: 'POST',
@@ -211,8 +218,8 @@ const PaginaBusqueda = () => {
     cargarLugares()
     cargarPueblos()
     cargarTipos()
-    obtenerObjetosLocales(nombrePueblo, tipoLocal, radioKMS)
-  }, [nombrePueblo, tipoLocal, radioKMS])
+    obtenerObjetosLocales(nombrePueblo, tipoLocal, radioKMS,latitud,longitud)
+  }, [nombrePueblo, tipoLocal, radioKMS,latitud,longitud])
 
   const handlePageChange = page => {
     setCurrentPage(page)
@@ -221,11 +228,12 @@ const PaginaBusqueda = () => {
   return (
     <>
       <NavBar usuario={user} />
-      <div className='h-full w-screen flex   bg-fondo bg-cover bg-center  pt-16  sm:flex-col sm:items-center md:flex-row lg:pt-8 xl:pt-8'>
+      <div className='h-full w-screen flex   bg-fondo bg-cover bg-center  pt-16  sm:flex-col sm:items-center 
+                      md:flex-row md:pr-2 md:pt-0 md:h-[1050px] lg:pt-8 xl:pt-8 xl:pr-20'>
         <div className='flex  w-1/2 sm:w-full lg:pl-16'>
-          <div className='w-1/12 hidden 2xl:block '></div>
-          <div className=' flex flex-col    w-2/3  items-center space-y-8 pt-8 sm:w-full md:pt-16  lg:w-10/12  2xl:w-9/12'>
-            <div className='flex-row bg-azul-oscuro bg-opacity-70 px-8 py-6 rounded-lg shadow-md w-8/12 sm:w-10/12 '>
+          {/* <div className='w-1/12 hidden 2xl:block '></div> */}
+          <div className=' flex flex-col    w-2/3  items-center space-y-8 pt-8 sm:w-full sm:mr-8  md:pt-0  lg:w-10/12  2xl:w-9/12'>
+            <div className='flex-row bg-azul-oscuro bg-opacity-70 px-8 py-6 rounded-lg shadow-md w-8/12 sm:w-10/12  '>
               <h4 className='text-large pb-4 font-luckiestGuy md:text-xl 2xl:text-2xl text-orange-400'>
                 Descubre tu lugar
               </h4>
@@ -266,13 +274,13 @@ const PaginaBusqueda = () => {
                 Resultados de tu búsqueda
               </label>
             </div>
-            <div className='pb-12 w-4/5 h-auto hidden md:block'>
+            <div className='pb-12 w-4/5 md:pt-8 h-auto hidden md:block'>
               {locales && <Mapa coordenadas={locales} />}
             </div>
           </div>
         </div>
         <div className='flex  w-1/2 sm:w-10/12 md:w-11/12 md:pr-4 lg:pr-12 xl:pt-12'>
-          <div className=' w-2/3 sm:w-full '>
+          <div className=' w-2/3 sm:w-full sm:mr-8'>
             {isLoading ? (
               // Muestra un estado de carga mientras isLoading es true
               <div className=' flex w-full h-full justify-center items-center '>
@@ -290,7 +298,8 @@ const PaginaBusqueda = () => {
                 {locales.length > itemsPerPage && (
                   <div className='flex justify-center'>
                     <Pagination
-                      className='sm:text-md xl:text-lg bg-blanco-gris rounded-2xl bg-opacity-40 '
+                      className='sm:text-md  xl:text-lg bg-blanco-gris rounded-2xl bg-opacity-40  '
+                      showLessItems={true}
                       current={currentPage}
                       pageSize={itemsPerPage}
                       total={locales.length}
@@ -302,6 +311,9 @@ const PaginaBusqueda = () => {
             )}
           </div>
         </div>
+          <div className='pt-6 pb-4 pr-4 w-3/4 h-auto  md:hidden'>
+              {locales && <Mapa coordenadas={locales} />}
+            </div>
       </div>
     </>
   )

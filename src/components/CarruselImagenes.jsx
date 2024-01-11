@@ -2,7 +2,7 @@ import { Carousel } from '@material-tailwind/react';
 
 export function CarruselImagenes({ images }) {
   return (
-    <div className='w-10/12 mx-auto '> 
+    <div className='w-11/12 mx-auto'> 
       <Carousel
         className='rounded-xl overflow-hidden'
         navigation={({ setActiveIndex, activeIndex, length }) => (

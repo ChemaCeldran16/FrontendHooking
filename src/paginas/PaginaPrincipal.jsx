@@ -20,6 +20,8 @@ import {
 import {Modal} from 'antd'
 import MapaArea from '../components/MapaArea'
 
+import Switch from '../components/Switch'
+
 export default function PaginaPrincipal() {
   const [localData, setLocalData] = useState(null)
   const [posibilidadesLocales, setposibilidadesLocales] = useState([])
@@ -191,6 +193,7 @@ export default function PaginaPrincipal() {
         dispatch(cambioTipo(selectedOptionTipo))
         dispatch(cambioPoblacion(selectedOptionPoblacion))
         dispatch(cambioKilometros(decimalValue))
+        
         // Navegar a "/search"
         navigate('/search')
       }
@@ -272,11 +275,13 @@ const handleExecuteCancel = () => {
   return (
     <>
       <NavBar usuario={user} />
-      <div className='h-full w-screen bg-fondo bg-opacity-0  bg-cover bg-center flex justify-center items-start  sm:pt-20 md:pt-24 md:h-screen 2xl:bg-right'>
-        <div className='flex flex-col   bg-tranparent h-full sm:items-center   md:w-4/4 md:items-start  lg:w-full lg:items-center'>
-          <div className='sm:w-10/12 md:w-full   lg:pl-24  xl:pl-40 2xl:pl-56'>
-            <div className='bg-azul-oscuro bg-opacity-80 px-8 py-6 rounded-lg shadow-md  sm:w-4/4 md:w-3/5 md:pr  lg:w-2/5 xl:w-5/5 2xl:w-4/12'>
-              <h4 className=' text-large pb-4 font-luckiestGuy md:text-xl 2xl:text-2xl text-orange-400'>
+      <div className='h-full w-screen bg-fondo bg-opacity-0  bg-cover bg-center flex justify-center items-start  sm:pt-20 sm:pl-4 md:pt-12 
+                      md:h-screen md:pl-0 md:h-[1150px] lg:h-[1100px] 2xl:bg-repeat xl:h-[1200px]'>
+        <div className='flex flex-col   bg-tranparent h-full sm:items-center   md:w-4/4 md:items-start  lg:w-full lg:items-center '>
+        <div className=' flex flex-col    w-2/3  items-center space-y-8 pt-8 sm:w-full sm:mr-8 md:pt-16 lg:w-8/12 lg:pt-12 xl:w-5/12 
+                        xl:items-start xl:mr-[475px]  2xl:w-5/12 xl:mr-[600px]'>
+          <div className='flex-row bg-azul-oscuro bg-opacity-70 px-8 py-6 rounded-lg shadow-md w-8/12 sm:w-10/12 '>
+            <h4 className='text-large pb-4 font-luckiestGuy md:text-xl 2xl:text-2xl text-orange-400'>
                 Descubre tu lugar
               </h4>
               <AutocompletarOpcionesPrincipal
@@ -305,13 +310,27 @@ const handleExecuteCancel = () => {
                 ></DecimalInput>
               </div>
               <button
-                className='block w-full md:px-4 py-2 bg-azul-claro text-black font-acme text-xl rounded-lg hover:bg-blue-500 sm:w-8/12 sm:mx-auto  '
-                onClick={handleBotonbuscar}
+              className='block w-full px-4 py-2 bg-azul-claro text-black font-acme text-xl rounded-lg hover:bg-blue-500 lg:w-8/12 lg:mx-auto'
+              onClick={handleBotonbuscar}
               >
                 Buscar
               </button>
-            <div className='flex justify-center '> 
-              <button className=' w-8/12 bg-blue-600 rounded-lg mt-4 text-lg py-2 ' onClick={handleClickMapaInteractivo}>
+
+            <div className='pt-4 md:flex md:w-full md:items-center md:justify-center '>
+              <Switch  /> 
+              
+            </div>
+            </div>
+          </div>
+          <div className='w-full lg:w-full xl:w-10/12 lg:ml-48 mt-8  rounded-2xl xl:items-start xl:ml-24 xl:mr-40'>
+          <div className='bg-azul-oscuro bg-opacity-80   rounded-lg shadow-md sm:flex sm:flex sm:flex-col sm:items-center
+                          sm:py-4 sm:px-2 sm:w-10/12 sm:ml-4 md:py-6  md:px-8  md:w-10/12 md:ml-14 lg:w-7/12 lg:ml-24  
+                          xl:w-5/12  2xl:w-5/12 2xl:py-4  2xl:ml-24'> 
+            <h4 className='sm:text-md sm:pl-4 md:pl-0 text-large  font-luckiestGuy md:text-xl 2xl:text-2xl text-orange-400'>
+                Si lo prefieres puedes diseñar tu area
+              </h4>
+              <button className=' w-8/12 bg-azul-claro  text-black rounded-lg mt-4 text-lg py-2 font-acme md:text-xl rounded-lg hover:bg-blue-500 sm:w-8/12 sm:mx-auto sm:text-md'
+               onClick={handleClickMapaInteractivo}>
                 Mapa interactivo
               </button>
               <Modal
@@ -327,19 +346,17 @@ const handleExecuteCancel = () => {
               <MapaArea onAccept={handleAcceptMapaInteractivo} onCancel={handleCancelMapaInteractivo} executeAccept={executeAccept} executeCancel={executeCancel} />
             </Modal>
             </div>
-            </div>
           </div>
-
           <div
             id='recomendacion'
-            className='flex flex-col bg-transparent pt-16 w-full md:pt-24 lg:w-9/12 lg:pt-8'
+            className='flex flex-col bg-transparent pt-16 w-full sm:pl-2 md:pt-8 lg:w-9/12 lg:pt-8'
           >
             <h4 className=' text-large text-orange-400 sm:pl-12 md:text-xl md:pb-4 font-luckiestGuy 2xl:pl-24 2xl:text-2xl'>
               Nuestras recomendaciones
             </h4>
             <div
               id='localesRecomendacion'
-              className='flex flex-row py-4 sm:flex-wrap sm:justify-center sm:space-x-2 md:justify-between xl:flex-nowrap 2xl:justify-center 2xl:space-x-32 '
+              className='flex flex-row py-4 sm:flex-wrap sm:justify-center sm:space-x-2 sm:mr-10 md:mr-0 md:justify-between xl:flex-nowrap 2xl:justify-center 2xl:space-x-32 '
             >           
               {localData &&
                 localData.map((local, index) => (
